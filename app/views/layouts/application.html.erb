@@ -8,13 +8,17 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/casa_49.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
 
   <body style="background-image: url('assets/medium_pool.jpg');
   background-repeat: no-repeat;
   height: 100vh;">
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <span class="navbar-brand mb-0 h1">Casa 49</span>
+      <span class="navbar-brand align-middle">Casa 49</span>
       <button 
         type="button"
         data-bs-toggle="collapse"
@@ -33,6 +37,9 @@
           <li class="nav-item">
             <span class="nav-link" onclick="contactUs()">Contact Us</span>
           </li>
+          <li class="nav-item">
+            <span class="nav-link" onclick="photos()">Photos</span>
+          </li>
         </ul>
       </div>
     </nav>
@@ -42,15 +49,48 @@
     <script>
       function home() {
         document.getElementById("pageName").innerHTML = "Home";
-        document.getElementById("pageText").innerHTML = "Featured on HGTV’s House Hunters International 'Where Are They Now?', Casa Quadro is ideally located 2 blocks from the emblematic Paseo de Montejo, and 1 block behind the ever popular 'Restaurant Row' in Santa Ana.<br><br>At over 2300 square feet, this modern, open-concept home has 2 bedrooms, 2 large bathrooms, and a garage large enough to hold an SUV.<br><br>A stunning 20 foot skylight in the front room provides plenty of light and allows you to stargaze at night.<br><br>Brazilian Granite, a huge kitchen island, and high-end appliances create a dream Chef’s kitchen.<br><br> The gorgeous backyard, complete with filtered pool and lush gardens provide your own private Oasis to enjoy the lovely Merida weather.<br><br> 4 outdoor terraces give you ample opportunity to truly have an outdoor living experience in various areas of this home.";
-        }
+        document.getElementById("pageText").innerHTML = 'Casa 49 is ideally located 4 blocks from the emblematic Paseo de Montejo, 1 block behind the ever popular "Restaurant Row" on Calle 47, and a block and a half from the wonderful Parque la Plancha.<br><br>At over 2300 square feet, this modern, open-concept home has 3 bedrooms, and 2 large bathrooms.<br><br>A stunning 20 foot skylight in the front room provides plenty of light and allows you to stargaze at night.<br><br>Brazilian Granite, a huge kitchen island, and high-end appliances create a dream Chef’s kitchen.<br><br> The gorgeous backyard, complete with filtered pool and lush gardens provide your own private Oasis to enjoy the lovely Merida weather.<br><br> 4 outdoor terraces give you ample opportunity to truly have an outdoor living experience in various areas of this home.';
+        document.getElementById('myCarousel').classList.add("d-none");
+      }
     </script>
     <script>
       function contactUs() {
         document.getElementById("pageName").innerHTML = "Contact Us";
-        pageText = document.getElementById("pageText");
-        pageText.innerHTML = "";
+        document.getElementById("pageText").innerHTML = 'To check availability and to make a booking contact Erich Briehl Whatsapp +52 999 960 4450';
+        document.getElementById('myCarousel').classList.add("d-none");
       }
+    </script>
+    <script>
+      function photos() {
+        document.getElementById("pageName").innerHTML = "Photos";
+        document.getElementById("pageText").innerHTML = '';
+        document.getElementById('myCarousel').classList.remove("d-none");
+      }
+    </script>
+    <script>
+      $(document).ready(function(){
+        // Activate Carousel
+        $("#myCarousel").carousel();
+          
+        // Enable Carousel Indicators
+        $(".item1").click(function(){
+          $("#myCarousel").carousel(0);
+        });
+        $(".item2").click(function(){
+          $("#myCarousel").carousel(1);
+        });
+        $(".item3").click(function(){
+          $("#myCarousel").carousel(2);
+        });
+          
+        // Enable Carousel Controls
+        $(".left").click(function(){
+          $("#myCarousel").carousel("prev");
+        });
+        $(".right").click(function(){
+          $("#myCarousel").carousel("next");
+        });
+      });
     </script>
   </body>
 </html>

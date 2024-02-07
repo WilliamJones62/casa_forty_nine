@@ -1,4 +1,5 @@
 README
+
 The ultimate aim of this site is to allow guests to book and pay for a hoiday in Casa 49, Merida, Mexico. This will be achieved in the stages outlined below
 
 1. MVP - Static information about the house, and how to contact the property manager to book a vacation.
