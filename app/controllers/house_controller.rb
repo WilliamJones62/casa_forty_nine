@@ -1,10 +1,6 @@
+# frozen_string_literal: true
+
+# Controller for web page
 class HouseController < ApplicationController
-  def home
-  end
-
-  def gallery
-  end
-
-  def contact
-  end
+  def home; end
 end
