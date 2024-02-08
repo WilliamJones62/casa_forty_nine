@@ -16,7 +16,7 @@ function pageNav(page) {
         document.getElementById('myCarousel').classList.remove("d-none");
         break;
         case 3:
-        document.getElementById("pageText").innerHTML = 'To check availability and to make a booking contact Erich Briehl Whatsapp +52 999 960 4450';
+        document.getElementById("pageText").innerHTML = '<h1>Rates</h1><table class="table table-hover table_responsive"><tr><th>Dates</th><th>Nightly</th><th>Weekly</th><th>Monthly</th></tr><tr><td>November-December</td><td>$250</td><td>$1500</td><td>$5000</td></tr><tr><td>January-October</td><td>$200</td><td>$1200</td><td>$4000</td></tr></table><br>To check availability and to make a booking contact Erich Briehl Whatsapp +52 999 960 4450';
         document.getElementById('bookingNav').classList.add("nav-active");
     }
 }
