@@ -19,6 +19,7 @@
                 r++;
             }
         }
+        document.getElementById("previousMonth").disabled = false;
         for (var cell = 0; cell < 42 - r; cell++) { // 42 date-cells in calendar
             if (cell >= calMonthArray.length) {
                 calendar.datesBody.append('<div class="blank"></div>');
@@ -31,6 +32,10 @@
                     var m = '<div class="past-date">';
                 } else {
                     var m = checkToday(iter_date) ? '<div class="today">' : "<div>";
+                    if (m == '<div class="today">') {
+                        // This month contains today's date, so disable the previous month button
+                        document.getElementById("previousMonth").disabled = true;
+                    };
                 }
                 calendar.datesBody.append(m + shownDate + "</div>");
             }
@@ -52,6 +57,7 @@
             var whichCalendar = calendar.name;
 
             if (firstClick && secondClick) {
+                alert("firstClick && secondClick")
                 thirdClicked = getClickedInfo(clicked, calendar);
                 var firstClickDateObj = new Date(firstClicked.year,
                 firstClicked.month,
@@ -71,6 +77,7 @@
                     selected = {};
                     selected[firstClicked.year] = {};
                     selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
+                    alert("First addChosenDates")
                     selected = addChosenDates(firstClicked, secondClicked, selected);
                 } else { // reset clicks
                     selected = {};
@@ -86,10 +93,13 @@
             if (!firstClick) {
                 firstClick = true;
                 firstClicked = getClickedInfo(clicked, calendar);
+                var fcString = JSON.stringify(firstClicked);
+                alert(`!firstClick firstClicked = ${fcString}`)
                 selected[firstClicked.year] = {};
                 selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
             } else {
                 secondClick = true;
+                alert("secondClick")
                 secondClicked = getClickedInfo(clicked, calendar);
 
                 // what if second clicked date is before the first clicked?
@@ -120,6 +130,7 @@
 
 
                 // add between dates to [selected]
+                alert("Second addChosenDates")
                 selected = addChosenDates(firstClicked, secondClicked, selected);
             }
             selectDates(selected);
@@ -259,7 +270,7 @@
                 "weekline": weekline1,
                 "datesBody": datesBody1
         },
-            "cal2": {
+        "cal2": {
             "name": "second",
                 "calHeader": calHeader2,
                 "weekline": weekline2,
@@ -278,7 +289,7 @@
 
     b();
     c(month, year, 0);
-    c(nextMonth, nextYear, 1);
+    // c(nextMonth, nextYear, 1);
     switchButton.on("click", function () {
         var clicked = $(this);
         var generateCalendars = function (e) {
@@ -290,7 +301,7 @@
             nextYear = nextDatesSecond[1];
 
             c(month, year, 0);
-            c(nextMonth, nextYear, 1);
+            // c(nextMonth, nextYear, 1);
         };
         if (clicked.attr("class").indexOf("left") != -1) {
             generateCalendars("previous");
@@ -322,8 +333,9 @@
 
     // Finding between dates MADNESS. Needs refactoring and smartening up :)
     function addChosenDates(firstClicked, secondClicked, selected) {
+        alert("addChosenDates");
         if (secondClicked.date > firstClicked.date || secondClicked.month > firstClicked.month || secondClicked.year > firstClicked.year) {
-
+            alert("addChosenDates if passes");
             var added_year = secondClicked.year;
             var added_month = secondClicked.month;
             var added_date = secondClicked.date;
