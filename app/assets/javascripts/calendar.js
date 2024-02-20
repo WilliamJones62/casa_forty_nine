@@ -31,11 +31,11 @@
                 (shownDate != today.getDate() && passed_month == today.getMonth()) || passed_month != today.getMonth()) && iter_date < today) {
                     var m = '<div class="past-date">';
                 } else {
-                    var m = checkToday(iter_date) ? '<div class="today">' : "<div>";
+                    var m = checkToday(iter_date) ? '<div class="today">' : '<div class="available">';
                     if (m == '<div class="today">') {
                         // This month contains today's date, so disable the previous month button
                         document.getElementById("previousMonth").disabled = true;
-                    };
+                    }
                 }
                 calendar.datesBody.append(m + shownDate + "</div>");
             }
@@ -51,7 +51,7 @@
         var clicked = false;
         selectDates(selected);
 
-        clickedElement = calendar.datesBody.find('div');
+        clickedElement = calendar.datesBody.find(".available");
         clickedElement.on("click", function () {
             clicked = $(this);
             var whichCalendar = calendar.name;
