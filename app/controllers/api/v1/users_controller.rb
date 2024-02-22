@@ -9,8 +9,6 @@ module Api
         # this endpoint returns all booked days for the calendar month.
         @booked_days = BookedDaysFinderService.call(params)
       end
-
-      private
     end
   end
 end

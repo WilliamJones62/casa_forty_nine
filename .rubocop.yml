@@ -1,2 +1,5 @@
 Metrics/BlockLength:
   AllowedMethods: ['describe', 'context']
+Lint/MissingSuper:
+  Exclude:
+    - 'app/services/**/*'
