@@ -25,8 +25,8 @@ module Api
 
       def load_variables
         @calendar_year = params[:year].to_i
-        @calendar_month = params[:month].to_i
-        # if the year/month is in the past don't try to find the bookings
+        # the month on the front end is one less than the actual month
+        @calendar_month = params[:month].to_i + 1
         @year_today = Date.today.year
         @month_today = Date.today.month
         @booked_days = []

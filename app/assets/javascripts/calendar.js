@@ -5,7 +5,7 @@
 
 	$(document).ready(function () {
     function c(passed_month, passed_year, calNum) {
-        var calendar = calNum == 0 ? calendars.cal1 : calendars.cal2;
+        var calendar = calendars.cal1;
         makeWeek(calendar.weekline);
         calendar.datesBody.empty();
         var calMonthArray = makeMonthArray(passed_month, passed_year);
@@ -35,7 +35,12 @@
                     if (m == '<div class="today">') {
                         // This month contains today's date, so disable the previous month button
                         document.getElementById("previousMonth").disabled = true;
-                    }
+                    } 
+                    if (booked.includes(shownDate)) {
+                        // if (booked.includes(shownDate) && m != '<div class="today">') {
+                            // this date is part of an existing booking
+                            m = '<div class="past-date">';
+                        }
                 }
                 calendar.datesBody.append(m + shownDate + "</div>");
             }
@@ -54,7 +59,6 @@
         clickedElement = calendar.datesBody.find(".available");
         clickedElement.on("click", function () {
             clicked = $(this);
-            var whichCalendar = calendar.name;
 
             if (firstClick && secondClick) {
                 alert("firstClick && secondClick")
@@ -288,8 +292,10 @@
     var selected = {};
 
     b();
-    c(month, year, 0);
-    // c(nextMonth, nextYear, 1);
+    // need to get all the booked days for this month and load them in the calendar
+    var booked = [];
+    getBookedDays();
+    setTimeout(() => c(month, year, 0), 1000);
     switchButton.on("click", function () {
         var clicked = $(this);
         var generateCalendars = function (e) {
@@ -300,7 +306,8 @@
             nextMonth = nextDatesSecond[0];
             nextYear = nextDatesSecond[1];
 
-            c(month, year, 0);
+            getBookedDays();
+            setTimeout(() => c(month, year, 0), 1000);
             // c(nextMonth, nextYear, 1);
         };
         if (clicked.attr("class").indexOf("left") != -1) {
@@ -311,6 +318,21 @@
         clickedElement = bothCals.find(".calendar_content").find("div");
     });
 
+    function getBookedDays() {
+        // Call the API to get the days that are already booked this month  
+        booked = [];
+        const req = new XMLHttpRequest();
+        req.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var dates = JSON.parse(this.responseText);
+                booked = dates["booked"];
+            }
+        };
+        
+        req.open('GET', `http://localhost:3000/api/v1/users/1/booked/${year}/${month}.json`);
+        // req.open('GET', 'http://retailorders.dartagnan.com/api/v1/retail_orders/api.json');
+        req.send();
+    }
 
     //  Click picking stuff
     function getClickedInfo(element, calendar) {
