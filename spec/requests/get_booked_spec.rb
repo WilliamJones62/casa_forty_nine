@@ -7,7 +7,7 @@ RSpec.describe 'UsersController', type: :request do
     before do
       user = FactoryBot.create(:user)
       calendar = Date.today.at_beginning_of_month.next_month
-      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month}.json"
+      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month - 1}.json"
     end
     it 'returns no booked days' do
       parsed_json = JSON.parse(response.body)
@@ -23,7 +23,7 @@ RSpec.describe 'UsersController', type: :request do
       user = FactoryBot.create(:user)
       calendar = Date.today.at_beginning_of_month.next_month
       create(:booking, :overlap_start_of_month).user
-      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month}.json"
+      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month - 1}.json"
     end
     it 'returns booked days' do
       parsed_json = JSON.parse(response.body)
@@ -39,7 +39,7 @@ RSpec.describe 'UsersController', type: :request do
       user = FactoryBot.create(:user)
       calendar = Date.today.at_beginning_of_month.next_month
       create(:booking, :overlap_end_of_month).user
-      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month}.json"
+      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month - 1}.json"
     end
     it 'returns booked days' do
       parsed_json = JSON.parse(response.body)
@@ -55,7 +55,7 @@ RSpec.describe 'UsersController', type: :request do
       user = FactoryBot.create(:user)
       calendar = Date.today.at_beginning_of_month.next_month
       create(:booking, :middle_of_month).user
-      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month}.json"
+      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month - 1}.json"
     end
     it 'returns booked days' do
       parsed_json = JSON.parse(response.body)
@@ -72,7 +72,7 @@ RSpec.describe 'UsersController', type: :request do
       calendar = Date.today.at_beginning_of_month.next_month
       create(:booking, :middle_of_month).user
       create(:booking, :overlap_start_of_month).user
-      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month}.json"
+      get "/api/v1/users/#{user.id}/booked/#{calendar.year}/#{calendar.month - 1}.json"
     end
     it 'returns booked days' do
       parsed_json = JSON.parse(response.body)
