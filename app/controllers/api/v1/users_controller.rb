@@ -9,6 +9,20 @@ module Api
         # this endpoint returns all booked days for the calendar month.
         @booked_days = BookedDaysFinderService.call(params)
       end
+
+      def booking
+        # this endpoint createsa new booking from calendar data selected by the user
+        booking_dates = BookingDatesConverterService.call(params)
+        user = User.find(params[:user_id].to_i)
+        booking = user.bookings.new
+        booking.start_date = booking_dates[:start_date]
+        booking.end_date = booking_dates[:end_date]
+        @message = if booking.save
+                     'Booking was successful!'
+                   else
+                     'Booking was not successful!'
+                   end
+      end
     end
   end
 end

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users do
         get '/booked/:year/:month', to: "users#booked"
+        get '/booking/:selected', to: "users#booking"
         resources :bookings
       end
     end

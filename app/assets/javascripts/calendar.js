@@ -61,7 +61,6 @@
             clicked = $(this);
 
             if (firstClick && secondClick) {
-                alert("firstClick && secondClick")
                 thirdClicked = getClickedInfo(clicked, calendar);
                 var firstClickDateObj = new Date(firstClicked.year,
                 firstClicked.month,
@@ -81,7 +80,6 @@
                     selected = {};
                     selected[firstClicked.year] = {};
                     selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
-                    alert("First addChosenDates")
                     selected = addChosenDates(firstClicked, secondClicked, selected);
                 } else { // reset clicks
                     selected = {};
@@ -98,12 +96,10 @@
                 firstClick = true;
                 firstClicked = getClickedInfo(clicked, calendar);
                 var fcString = JSON.stringify(firstClicked);
-                alert(`!firstClick firstClicked = ${fcString}`)
                 selected[firstClicked.year] = {};
                 selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
             } else {
                 secondClick = true;
-                alert("secondClick")
                 secondClicked = getClickedInfo(clicked, calendar);
 
                 // what if second clicked date is before the first clicked?
@@ -134,10 +130,11 @@
 
 
                 // add between dates to [selected]
-                alert("Second addChosenDates")
                 selected = addChosenDates(firstClicked, secondClicked, selected);
             }
             selectDates(selected);
+            var myJSON = JSON.stringify(selected);
+            console.log(`selected = ${myJSON}`);
         });
 
     }
@@ -355,9 +352,7 @@
 
     // Finding between dates MADNESS. Needs refactoring and smartening up :)
     function addChosenDates(firstClicked, secondClicked, selected) {
-        alert("addChosenDates");
         if (secondClicked.date > firstClicked.date || secondClicked.month > firstClicked.month || secondClicked.year > firstClicked.year) {
-            alert("addChosenDates if passes");
             var added_year = secondClicked.year;
             var added_month = secondClicked.month;
             var added_date = secondClicked.date;

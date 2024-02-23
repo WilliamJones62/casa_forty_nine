@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# services to find all booked days in this month
+# service to find all booked days in this month
 class BookedDaysFinderService < ApplicationService
   def initialize(params)
     @params = params
