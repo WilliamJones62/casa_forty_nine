@@ -18,9 +18,9 @@ module Api
         booking.start_date = booking_dates[:start_date]
         booking.end_date = booking_dates[:end_date]
         @message = if booking.save
-                     'Booking was successful!'
+                     'Booking was created!'
                    else
-                     'Booking was not successful!'
+                     'Booking was not created!'
                    end
       end
     end

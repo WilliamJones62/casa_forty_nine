@@ -39,9 +39,6 @@ class BookingDatesConverterService < ApplicationService
   end
 
   def format_dates
-    puts "@start_year = #{@start_year}"
-    puts "@start_month = #{@start_month}"
-    puts "@start_day = #{@start_day}"
     start_date = Date.new(@start_year.to_i, @start_month.to_i + 1, @start_day)
     end_date = Date.new(@end_year.to_i, @end_month.to_i + 1, @end_day)
     @start_end_dates = { start_date: start_date, end_date: end_date }
