@@ -316,7 +316,7 @@
     });
 
     function getBookedDays() {
-        // Call the API to get the days that are already booked this month  
+        // Call the API to get the days that are already booked this month 
         booked = [];
         const req = new XMLHttpRequest();
         req.onreadystatechange = function() {
@@ -326,8 +326,7 @@
             }
         };
         
-        req.open('GET', `http://localhost:3000/api/v1/users/1/booked/${year}/${month}.json`);
-        // req.open('GET', 'http://retailorders.dartagnan.com/api/v1/retail_orders/api.json');
+        req.open('GET', `http://localhost:3000/api/v1/users/1/booked.json?year=${year}&month=${month}`);
         req.send();
     }
 
