@@ -4,7 +4,7 @@
 
 
 	$(document).ready(function () {
-    function c(passed_month, passed_year, calNum) {
+    function calendarDates(passed_month, passed_year) {
         var calendar = calendars.cal1;
         makeWeek(calendar.weekline);
         calendar.datesBody.empty();
@@ -90,6 +90,7 @@
                     bothCals.find(".calendar_content").find("div").each(function () {
                         $(this).removeClass("selected");
                     });
+                    selectButton.addClass("d-none");
                 }
             }
             if (!firstClick) {
@@ -126,6 +127,7 @@
                     firstClick = false;
                     secondClick = false;
                     $(this).removeClass("selected");
+                    selectButton.addClass("d-none");
                 }
 
 
@@ -134,6 +136,11 @@
             }
             selectDates(selected);
             var myJSON = JSON.stringify(selected);
+            let selectedLen = Object.keys(selected).length;
+            if (selectedLen != 0) {
+                selectButton.removeClass("d-none");
+            }
+
             console.log(`selected = ${myJSON}`);
         });
 
@@ -210,7 +217,7 @@
         return [theNextMonth, theNextYear];
     }
 
-    function b() {
+    function setUpDates() {
         today = new Date;
         year = today.getFullYear();
         month = today.getMonth();
@@ -288,11 +295,18 @@
     var secondClick = false;
     var selected = {};
 
-    b();
+    setUpDates();
     // need to get all the booked days for this month and load them in the calendar
     var booked = [];
     getBookedDays();
-    setTimeout(() => c(month, year, 0), 1000);
+    var selectButton = $("#calendar_commit_button");
+    // the select button should be hidden until dates are selected
+    selectButton.addClass("d-none");
+    selectButton.on("click", function () {
+        postBooking();
+    });
+
+    setTimeout(() => calendarDates(month, year), 1000);
     switchButton.on("click", function () {
         var clicked = $(this);
         var generateCalendars = function (e) {
@@ -304,8 +318,7 @@
             nextYear = nextDatesSecond[1];
 
             getBookedDays();
-            setTimeout(() => c(month, year, 0), 1000);
-            // c(nextMonth, nextYear, 1);
+            setTimeout(() => calendarDates(month, year), 1000);
         };
         if (clicked.attr("class").indexOf("left") != -1) {
             generateCalendars("previous");
@@ -328,6 +341,28 @@
         
         req.open('GET', `http://localhost:3000/api/v1/users/1/booked.json?year=${year}&month=${month}`);
         req.send();
+    }
+
+    function postBooking() {
+        // call the API to create a booking
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            selected = {};
+            firstClicked = [];
+            secondClicked = [];
+            firstClick = false;
+            secondClick = false;
+            selectButton.addClass("d-none");
+            getBookedDays();
+            setTimeout(() => calendarDates(month, year), 1000);
+            var response = JSON.parse(this.responseText);
+            alert(response["message"]);
+        }
+        xhttp.open("POST", '/api/v1/users/1/booking.json');
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var selectedString = JSON.stringify(selected);
+
+        xhttp.send(`selected=${selectedString}`);
     }
 
     //  Click picking stuff
