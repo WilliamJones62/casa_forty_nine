@@ -37,10 +37,9 @@
                         document.getElementById("previousMonth").disabled = true;
                     } 
                     if (booked.includes(shownDate)) {
-                        // if (booked.includes(shownDate) && m != '<div class="today">') {
-                            // this date is part of an existing booking
-                            m = '<div class="past-date">';
-                        }
+                        // this date is part of an existing booking
+                        m = '<div class="past-date">';
+                    }
                 }
                 calendar.datesBody.append(m + shownDate + "</div>");
             }
@@ -87,8 +86,14 @@
                     secondClicked = [];
                     firstClick = false;
                     secondClick = false;
+                    document.getElementById("previousMonth").disabled = false;
+                    document.getElementById("nextMonth").disabled = false;
                     bothCals.find(".calendar_content").find("div").each(function () {
                         $(this).removeClass("selected");
+                        if ($(this).hasClass( "noncontiguous")){
+                            $(this).removeClass('noncontiguous');
+                            $(this).addClass('available');
+                        }
                     });
                     selectButton.addClass("d-none");
                 }
@@ -96,13 +101,11 @@
             if (!firstClick) {
                 firstClick = true;
                 firstClicked = getClickedInfo(clicked, calendar);
-                var fcString = JSON.stringify(firstClicked);
                 selected[firstClicked.year] = {};
                 selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
             } else {
                 secondClick = true;
                 secondClicked = getClickedInfo(clicked, calendar);
-
                 // what if second clicked date is before the first clicked?
                 var firstClickDateObj = new Date(firstClicked.year,
                 firstClicked.month,
@@ -126,7 +129,15 @@
                     secondClicked = [];
                     firstClick = false;
                     secondClick = false;
+                    document.getElementById("previousMonth").disabled = false;
+                    document.getElementById("nextMonth").disabled = false;
                     $(this).removeClass("selected");
+                    bothCals.find(".calendar_content").find("div").each(function () {
+                        if ($(this).hasClass( "noncontiguous")){
+                            $(this).removeClass('noncontiguous');
+                            $(this).addClass('available');
+                        }
+                    });
                     selectButton.addClass("d-none");
                 }
 
@@ -135,15 +146,98 @@
                 selected = addChosenDates(firstClicked, secondClicked, selected);
             }
             selectDates(selected);
-            var myJSON = JSON.stringify(selected);
             let selectedLen = Object.keys(selected).length;
             if (selectedLen != 0) {
-                selectButton.removeClass("d-none");
-            }
+                if (firstClick) {
+                    // all this stuff only needs to be done on the first click. Need
+                    // to work out how to do this efficiently.
+                    selectButton.removeClass("d-none");
+                    // Dates in a booking must be contiguous.
+                    // Check if there is a booking on either side of the selected day. If
+                    // there is then grey out the appropriate days and the month button(s).
+                    var monthHash = Object.values(selected)[0];
+                    var selectDay = Object.values(monthHash)[0];
+                    var priorBookedDate = findPriorBookedDate(selectDay)
+                    if (priorBookedDate != 0) {
+                        preventPriorDateSelection(priorBookedDate)
+                    }
+                    var nextBookedDate = findNextBookedDate(selectDay)
+                    if (nextBookedDate != 0) {
+                        preventNextDateSelection(nextBookedDate)
+                    }
+                    // Only need to do this stuff on the first click.
+                    // Maybe set a boolean to check below if the dates are unselected.
+                    // Look in 'booked' then compare to 'selected'. Find the latest booked
+                    // before the selected date then add the "past-date" class to the dates 
+                    // up to the first of the month, and disable previous month button.
+                    // Then look in 'booked and findthe earliest booked after the selected date
+                    // and add the "past-date" class to the dates up to the end of the month
+                    // and disable the next month button.
+                }
+            } else {
+                // If dates and month buttons have been greyed out above those changes 
+                // should be reversed here.
+            };
 
+            var myJSON = JSON.stringify(selected);
             console.log(`selected = ${myJSON}`);
+            myJSON = JSON.stringify(booked);
+            console.log(`booked = ${myJSON}`);
         });
 
+    }
+
+    function findPriorBookedDate(selectDay) {
+        var reveresed = [...booked].reverse();
+        for (var i = 0; i < reveresed.length; i++) {
+            if (selectDay > reveresed[i]) {//if the current item is smaller than the parameter
+                return reveresed[i]; //return the value at the index you are on
+            }; 
+        } 
+        // there is no previous booking this month
+        return 0;
+    }
+
+    function preventPriorDateSelection(firstDay) {
+        document.getElementById("previousMonth").disabled = true;
+        var dateElements = datesBody1.find('div');
+        dateElements.each(function (index) {
+            var number = +($(this).text());
+            if (!isNaN(number)) {
+                if (number >= firstDay) {
+                    return
+                } else if ($(this).hasClass( "available")){
+                    $(this).addClass('noncontiguous');
+                    $(this).removeClass('available');
+                }
+            }
+        });
+    }
+
+    function findNextBookedDate(selectDay) {
+        for (var i = 0; i < booked.length; i++) {
+            if (selectDay < booked[i]) {//if the current item is smaller than the parameter
+                return booked[i]; //return the value at the index you are on
+            }; 
+        } 
+        // there is no previous booking this month
+        return 0;
+    }
+
+    function preventNextDateSelection(firstDay) {
+        document.getElementById("nextMonth").disabled = true;
+        var dateElements = datesBody1.find('div');
+        dateElements.each(function (index) {
+            var number = +($(this).text());
+            if (!isNaN(number)) {
+                if (number <= firstDay) {
+                    return
+                } else if ($(this).hasClass( "available")){
+                    $(this).addClass('noncontiguous');
+                    $(this).removeClass('available');
+                }
+            }
+        });
     }
 
     function selectDates(selected) {
