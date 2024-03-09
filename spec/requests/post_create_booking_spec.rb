@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe 'UsersController', type: :request do
-  describe 'POST /booking dates in same month' do
+  describe 'POST /create booking dates in same month' do
     before do
       FactoryBot.create(:user)
       Date.today.at_beginning_of_month
-      post '/api/v1/users/1/booking.json', params: { selected: '{"2024":{"3":[8,9,10]}}' }
+      post '/api/v1/users/1/createbooking.json', params: { selected: '{"2024":{"3":[8,9,10]}}' }
     end
     it 'creates a booking' do
       booking = Booking.last
@@ -20,11 +20,11 @@ RSpec.describe 'UsersController', type: :request do
       expect(response).to have_http_status(:success)
     end
   end
-  describe 'POST /booking dates across 2 months' do
+  describe 'POST /create booking dates across 2 months' do
     before do
       FactoryBot.create(:user)
       Date.today.at_beginning_of_month
-      post '/api/v1/users/1/booking.json', params: { selected: '{"2024":{"3":[28,29,30],"4":[1,2,3]}}' }
+      post '/api/v1/users/1/createbooking.json', params: { selected: '{"2024":{"3":[28,29,30],"4":[1,2,3]}}' }
     end
     it 'creates a booking' do
       booking = Booking.last
@@ -37,11 +37,12 @@ RSpec.describe 'UsersController', type: :request do
       expect(response).to have_http_status(:success)
     end
   end
-  describe 'POST /booking dates across 2 years' do
+  describe 'POST /create booking dates across 2 years' do
     before do
       FactoryBot.create(:user)
       Date.today.at_beginning_of_month
-      post '/api/v1/users/1/booking.json', params: { selected: '{"2024":{"11":[28,29,30,31]},"2025":{"0":[1,2,3]}}' }
+      post '/api/v1/users/1/createbooking.json',
+           params: { selected: '{"2024":{"11":[28,29,30,31]},"2025":{"0":[1,2,3]}}' }
     end
     it 'creates a booking' do
       booking = Booking.last

@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users do
         get '/booked', to: "users#booked"
-        post '/booking', to: "users#booking"
+        post '/createbooking', to: "users#createbooking"
+        post '/updatebooking', to: "users#updatebooking"
       end
     end
   end

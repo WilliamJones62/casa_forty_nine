@@ -452,7 +452,7 @@
             var response = JSON.parse(this.responseText);
             alert(response["message"]);
         }
-        xhttp.open("POST", '/api/v1/users/1/booking.json');
+        xhttp.open("POST", '/api/v1/users/1/createbooking.json');
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var selectedString = JSON.stringify(selected);
 
