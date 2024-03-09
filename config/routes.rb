@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         get '/booked', to: "users#booked"
         post '/createbooking', to: "users#createbooking"
         post '/updatebooking', to: "users#updatebooking"
+        post '/deletebooking', to: "users#deletebooking"
       end
     end
   end
