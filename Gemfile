@@ -55,6 +55,8 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
   gem "rspec-rails"
   gem "dotenv-rails"
+  gem "factory_bot_rails"
+  gem "pry-rails"
 end
 
 group :development do
@@ -72,6 +74,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "factory_bot"
 end
-
-gem "tailwindcss-ruby", "~> 4.1"
