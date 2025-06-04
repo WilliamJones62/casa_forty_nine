@@ -1,6 +1,6 @@
-class Api::UsersController < ApplicationController
+class Api::UserByEmailController < ApplicationController
     def show
-        user = User.find(params[:id])
+        user = User.find_by!(email: params[:email])
 
         render json: user.to_json, status: :ok
     rescue ActiveRecord::RecordNotFound => e
