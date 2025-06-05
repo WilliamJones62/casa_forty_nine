@@ -1,5 +1,7 @@
 class Api::UserByEmailController < ApplicationController
     def show
+        session[:email] = params[:email]
+
         user = User.find_by!(email: params[:email])
 
         render json: user.to_json, status: :ok
