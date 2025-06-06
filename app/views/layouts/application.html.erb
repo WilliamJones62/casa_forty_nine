@@ -15,6 +15,7 @@
   </head>
 
   <body>
+      <p hidden id="applicationUrl"><%= ENV['APPLICATION_URL'] %></p>
       <%= render 'layouts/header' %>
       <%= yield %>
       <script src="/assets/sign_in_up.js"></script>
