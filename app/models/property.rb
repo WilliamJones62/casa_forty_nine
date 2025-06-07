@@ -6,4 +6,13 @@ class Property < ApplicationRecord
     validates_presence_of :city
     validates_presence_of :state
     validates_presence_of :country
+
+    monetize :price_cents, allow_nil: true
+
+    has_many_attached :images, dependent: :destroy
+    has_many :reviews, as: :reviewable
+
+    def average_rating
+        reviews.average(:rating).round(2)
+    end
 end
