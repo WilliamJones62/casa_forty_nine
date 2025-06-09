@@ -1,6 +1,8 @@
 <div class="d-flex p-2">
   <div>
-    <p> <%= image_tag @property.images.first %> </p>
+    <% if @property.images.first %>
+      <p> <%= image_tag @property.images.first %> </p>
+    <% end %>
     <p> <%= @property.name %> </p>
     <p> <%= @property.headline %> </p>
     <p> <%= @property.description %> </p>
@@ -9,6 +11,8 @@
     <p> <%= @property.state %> </p>
     <p> <%= @property.country %> </p>
     <p> <%= humanized_money_with_symbol(@property.price)%> </p>
-    <p> <%= @property.average_rating %> </p>
+    <% if @property.average_rating %>
+      <p> <%= @property.average_rating %> </p>
+    <% end %>
   </div>
 </div>

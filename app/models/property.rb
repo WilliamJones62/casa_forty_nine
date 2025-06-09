@@ -12,7 +12,4 @@ class Property < ApplicationRecord
     has_many_attached :images, dependent: :destroy
     has_many :reviews, as: :reviewable
 
-    def average_rating
-        reviews.average(:rating).round(2)
-    end
 end

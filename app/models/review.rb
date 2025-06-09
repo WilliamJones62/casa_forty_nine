@@ -33,7 +33,8 @@ class Review < ApplicationRecord
     end
 
     def update_average_rating_for_new_reviews
-        reviewable.total_rating += rating
+        reviewable.total_rating ? reviewable.total_rating += rating : reviewable.total_rating = rating
+        
         update_reviewable(reviewable)
     end
 
