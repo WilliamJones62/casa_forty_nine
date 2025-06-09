@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/BlockLength
+
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
   before(:context) do
-    @property = create (:property)
+    @property = create(:property)
     @review = create(:review, reviewable: @property)
   end
 
   describe 'reviews' do
-
     it 'updates the property when a review is created' do
       expect(@property.reviews_count).to eq(1)
       expect(@property.average_rating).to eq(5)
@@ -38,5 +41,6 @@ RSpec.describe Review, type: :model do
       expect(@property.total_rating).to eq(1)
     end
   end
-
 end
+
+# rubocop:enable Metrics/BlockLength
