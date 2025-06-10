@@ -39,6 +39,7 @@ RSpec.describe Review, type: :model do
       expect(@property.reviews_count).to eq(1)
       expect(@property.average_rating).to eq(1)
       expect(@property.total_rating).to eq(1)
+      @property.destroy
     end
   end
 end
