@@ -27,11 +27,13 @@ class Property < ApplicationRecord
   end
 
   def find_start_date
+    tomorrow = Date.tomorrow
     if reservations.past_reservations.order(:start_date).last
-      reservations.past_reservations.order(:start_date).last.end_date
-    else
-      Date.today + 1.day
+      start_date = reservations.past_reservations.order(:start_date).last.end_date + 1.day
     end
+    return tomorrow if !start_date || start_date < tomorrow
+
+    start_date
   end
 
   def load_available_dates(unavailable_dates, start_date, available_dates_array)
