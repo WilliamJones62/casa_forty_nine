@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'properties/displayimages'
+  get 'properties/deleteimage'
   resources :properties
   devise_for :users
   get 'home/landing'

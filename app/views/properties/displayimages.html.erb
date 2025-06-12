@@ -1,0 +1,18 @@
+<h2>Show Property Images</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @property.images.each do |image| %>
+        <tr>
+            <td><%= image_tag image, class: "img-fluid" %></td>
+            <td><%= link_to 'Delete',  controller: "properties", action: "deleteimage", id: image, class: "btn btn-primary" %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
