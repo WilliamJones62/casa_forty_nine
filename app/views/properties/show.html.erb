@@ -1,52 +1,23 @@
+<div class="text-center"> 
+  <h1> <%= @property.name %> </h1>
+  <h2> <%= @property.headline %> </h2>
+</div>
+
+<div class="flex">
+  <div>Rating = <%= @property.average_rating %><span style='font-size:15px;'>&#9733;</span> Reviews = <%= @property.reviews_count %> | <%= @property.city %>, <%= @property.state %>, <%= @property.country %> </div>
+</div>
+
+<%= image_tag "living room 2", class: "img-fluid" %>
+<%= link_to 'See All Images', properties_images_path, class: "btn btn-primary" %>  
+
 <div class="d-flex p-2">
   <div>
-    <p> <%= @property.name %> </p>
-    <p> <%= @property.headline %> </p>
     <p> <%= @property.description %> </p>
     <p> <%= @property.address %> </p>
-    <p> <%= @property.city %> </p>
-    <p> <%= @property.state %> </p>
-    <p> <%= @property.country %> </p>
     <p> <%= humanized_money_with_symbol(@property.price)%> </p>
     <% if @property.average_rating %>
       <p> <%= @property.average_rating %> </p>
     <% end %>
     <p> <%= @property.available_dates.first %> </p>
   </div>
-</div>
-<div id="demo" class="carousel slide mx-auto" data-bs-ride="carousel">
-
-  <!-- Indicators/dots -->
-  <div class="carousel-indicators">
-    <% (0...@property.images.length).each do |i| %>
-        <% if i == 0 %>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to=<%= "#{i}" %> class="active"></button>
-        <% else %>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to=<%= "#{i}" %>></button>
-        <% end %>
-    <% end %>
-  </div>
-  
-  <!-- The slideshow/carousel -->
-  <div class="carousel-inner">
-    <% first = true %>
-    <% @property.images.each do |image| %>
-        <% if first %>
-            <div class="carousel-item active">
-            <% first = false %>
-        <% else %>
-            <div class="carousel-item">
-        <% end %>
-        <%= image_tag image, class: "img-fluid" %>
-            </div>
-    <% end %>
-  </div>
-  
-  <!-- Left and right controls/icons -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
 </div>
