@@ -1,10 +1,27 @@
-<div class="text-center"> 
+<div class="text-center bg-light"> 
   <h1> <%= @property.name %> </h1>
   <h2> <%= @property.headline %> </h2>
 </div>
 
-<div class="flex">
-  <div>Rating = <%= @property.average_rating %><span style='font-size:15px;'>&#9733;</span> Reviews = <%= @property.reviews_count %> | <%= @property.city %>, <%= @property.state %>, <%= @property.country %> </div>
+<div class="d-flex justify-content-around bg-light">
+  <div class="p-2">Rating  <span class="fw-bold"><%= @property.average_rating %></span><span class="pe-3" style='font-size:15px;'>&#9733;</span> Reviews <span class="fw-bold"><%= @property.reviews_count %></span></div>
+  <div class="p-2"><%= @property.city %>, <%= @property.state %>, <%= @property.country %></div>
+  <div class="p-2">
+    <p>
+      <a href="#" class="text-decoration-none text-dark pe-3" data-bs-toggle="modal" data-bs-target="#shareModal">
+        Share
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+          <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"></path>
+        </svg>
+      </a>
+      <a href="#" class="text-decoration-none text-dark">
+        Save
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+          <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"></path>
+        </svg>
+      </a>
+    </p>  
+  </div>
 </div>
 
 <%= image_tag "living room 2", class: "img-fluid" %>
@@ -21,3 +38,5 @@
     <p> <%= @property.available_dates.first %> </p>
   </div>
 </div>
+
+<%= render 'layouts/share_modal' %>
