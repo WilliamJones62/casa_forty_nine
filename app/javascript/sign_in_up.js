@@ -4,8 +4,6 @@ function isValidEmail(email) {
   }
   
 function signUpInUser() {
-    var urlField = document.getElementById("applicationUrl");
-    var applicationUrl = urlField.innerHTML;
     var emailField = document.getElementById("email");
     var email = emailField.value;
 
@@ -22,14 +20,15 @@ function signUpInUser() {
     req.onload = function() {
         var jsonResponse = JSON.parse(this.responseText);
         if('error' in jsonResponse){
-            var relativeURL = applicationUrl+'/users/sign_up';
+            var relativeURL = '/users/sign_up';
         } else {
-            var relativeURL = applicationUrl+'/users/sign_in';
+            var relativeURL = '/users/sign_in';
         }
         const absoluteURL = new URL(relativeURL, window.location.href);
-        window.location.href = absoluteURL.href;
+        window.location.href = absoluteURL;
       }
-    req.open('GET', applicationUrl+'/api/user_by_email?email='+email);
+  
+    req.open('GET', '/api/user_by_email.json?email='+email);
     req.send();
     
 }
