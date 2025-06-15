@@ -10,13 +10,7 @@ class PropertiesController < ApplicationController
 
   def update
     if @property.update(property_params)
-      # do I need to attach the images individually or can I do them all at once?
       @property.images.attach(params[:property][:images])
-      # if params[:property][:images].present?
-      #     params[:property][:images].each do |image|
-      #       property.images.attach(image)
-      #     end
-      # end
       redirect_to @property, notice: 'Property was successfully updated.'
     else
       render :edit
@@ -40,6 +34,6 @@ class PropertiesController < ApplicationController
 
   def property_params
     params.require(:property).permit(:name, :headline, :description, :address, :city, :state, :country, :latitude,
-                                     :longitude, :price_cents, :price_currency)
+                                     :longitude, :price_cents, :price_currency, :bedrooms, :beds, :baths, :guests)
   end
 end

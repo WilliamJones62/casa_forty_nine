@@ -9,6 +9,10 @@ class Property < ApplicationRecord
   validates_presence_of :city
   validates_presence_of :state
   validates_presence_of :country
+  validates_presence_of :bedrooms
+  validates_presence_of :beds
+  validates_presence_of :baths
+  validates_presence_of :guests
 
   monetize :price_cents, allow_nil: true
 

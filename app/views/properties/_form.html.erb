@@ -50,6 +50,25 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th> <%= form.label :guests %></th>
+          <th> <%= form.label :bedrooms %></th>
+          <th> <%= form.label :beds %></th>
+          <th> <%= form.label :baths %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> <%= form.number_field :guests, step: 1 %></td>
+          <td> <%= form.number_field :bedrooms, step: 1 %></td>
+          <td> <%= form.number_field :beds, step: 1 %></td>
+          <td> <%= form.number_field :baths, step: 1 %></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <table class="table table-bordered">
+      <thead>
+        <tr>
           <th> <%= form.label :latitude %></th>
           <th> <%= form.label :longitude %></th>
           <th> <%= form.label :price_cents %></th>
@@ -69,8 +88,9 @@
     <h3>Images</h3>
     <%= form.file_field :images, multiple: true %>
     <br>
-  
+    <br>
     <div class="actions">
       <%= form.submit %>
     </div>
+
   <% end %>

@@ -24,8 +24,10 @@
 
 <div class="d-flex p-2 m-5">
   <div>
-    <h3><%=@property.name%> Hosted by Erich </h3>
-    <p> <%= @property.description %> </p>
+    <h5>Entire home in <%= @property.city%>, <%= @property.country%></h5>
+    <p> <%= @property.guests %> guests . <%= @property.bedrooms %> bedrooms . <%= @property.beds %> beds . <%= @property.baths %> baths </p>
+    <h5><%= image_tag "erich_image", class: "erich_image rounded-circle p-2" %><%=@property.name%> Hosted by Erich </h5>
+    <p> <%= @property.description.html_safe %> </p>
     <p> <%= @property.address %> </p>
     <p> <%= humanized_money_with_symbol(@property.price)%> </p>
     <% if @property.average_rating %>
