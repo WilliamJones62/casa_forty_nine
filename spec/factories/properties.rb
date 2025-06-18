@@ -17,5 +17,9 @@ FactoryBot.define do
     longitude { -89.61566162017164 }
     price_cents { 30_000 }
     price_currency { 'USD' }
+    beds { 4 }
+    bedrooms { 3 }
+    baths { 2 }
+    guests { 6 }
   end
 end

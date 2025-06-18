@@ -20,6 +20,7 @@ class Property < ApplicationRecord
   has_many :reviews, as: :reviewable
   has_many :reservations, dependent: :destroy
   has_many :reserved_users, through: :reservations, source: :user
+  has_and_belongs_to_many :amenities
 
   def available_dates
     available_dates_array = []

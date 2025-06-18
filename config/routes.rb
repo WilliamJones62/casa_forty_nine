@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'amenities/:id/displayimage', to: "amenities#displayimage", as: 'amenities_displayimage'
+  resources :amenities
   get 'properties/displayimages'
   get 'properties/deleteimage'
   get 'properties/images'

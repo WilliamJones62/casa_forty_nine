@@ -1,0 +1,23 @@
+</div><!-- amenities Modal -->
+<div class="modal fade" id="amenitiesModal" tabindex="-1" role="dialog" aria-labelledby="amenitiesModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="amenitiesModalLabel">What this place offers</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col">
+          <% for i in 1..@amenity_titles.length do %>
+            <p class="fw-bolder"><%= @amenity_titles[i] %></p>
+            <% if @property_amenities[i] %>
+              <% @property_amenities[i].each do |amenity| %>
+                <p><%= image_tag amenity.image, class: "amenities_image p-2" %><%= amenity.description %> </p>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

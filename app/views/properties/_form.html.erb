@@ -1,7 +1,7 @@
 <%= form_with(model: property, local: true) do |form| %>
     <% if property.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(complaint.errors.count, "error") %> prohibited this complaint from being saved:</h2>
+        <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
   
         <ul>
         <% property.errors.full_messages.each do |message| %>
@@ -89,8 +89,11 @@
     <%= form.file_field :images, multiple: true %>
     <br>
     <br>
+    <h3>Amenities</h3>
+    <%= form.collection_select :amenity_ids, Amenity.all, :id, :description, {}, { multiple: true } %>
+    <br>
+    <br>
     <div class="actions">
       <%= form.submit %>
     </div>
-
   <% end %>

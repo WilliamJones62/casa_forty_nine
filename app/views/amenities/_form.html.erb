@@ -1,0 +1,38 @@
+<%= form_with(model: amenity, local: true) do |form| %>
+    <% if amenity.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(amenity.errors.count, "error") %> prohibited this amenity from being saved:</h2>
+  
+        <ul>
+        <% amenity.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th> <%= form.label :amenity_type %></th>
+          <th> <%= form.label :description %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> <%= form.select(:amenity_type, options_for_select(options_for_select([['Bathroom', 1], ['Bedroom', 2], ['Cooling', 3], ['Entertainment', 4], ['Facilities', 5], ['Internet', 6], ['Kitchen', 7], ['Outdoor', 8], ['Safety', 9], ['Services', 10], ['Views', 11], ['Not included', 12]], @amenity.amenity_type))) %></td>
+          <td> <%= form.text_area :description %></td>
+        </tr>
+      </tbody>
+    </table>
+
+  
+    <h3>Images</h3>
+    <%= form.file_field :image %>
+    <br>
+    <br>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+
+  <% end %>

@@ -1,0 +1,16 @@
+<h2>Show Amenity Image</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><%= image_tag @amenity.image, class: "img-fluid" %></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<%= link_to 'List', amenities_path, class: "btn btn-primary" %>
