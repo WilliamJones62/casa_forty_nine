@@ -36,28 +36,7 @@
     <p> <%= @property.available_dates.first %> </p>
   </div>
 </div>
+<%= render 'amenities' %>
+<%= render 'reviews' %>
 
-<div class="d-flex p-2 m-5">
-  <div>
-    <h5>What this place offers</h5>
-
-    <div class="container">
-    <% i = 0 %>
-    <% while @amenities_loop > 0 do %>
-        <div class="row">
-            <div class="col">
-              <p><%= image_tag @property.amenities[i].image, class: "amenities_image p-2" %><%= @property.amenities[i].description %> </p>
-            </div>
-            <div class="col">
-              <p><%= image_tag @property.amenities[i+1].image, class: "amenities_image p-2" %><%= @property.amenities[i+1].description %> </p>
-            </div>
-        </div>
-        <% i += 2 %>
-        <% @amenities_loop -= 1 %>
-    <% end %>
-        <a href="#" class="btn btn-secondary d-block" data-bs-toggle="modal" data-bs-target="#amenitiesModal">Show all <%= @property.amenities.length %> amenities</a>
-    </div>
-  </div>
-</div>
 <%= render 'layouts/share_modal' %>
-<%= render 'layouts/amenities_modal' %>

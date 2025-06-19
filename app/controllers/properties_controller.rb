@@ -14,18 +14,6 @@ class PropertiesController < ApplicationController
       @property_amenities << @property.amenities.where(amenity_type: i)
     end
 
-    # @views_amenities = @property.amenities.where(amenity_type: 11)
-    # @bathroom_amenities = @property.amenities.where(amenity_type: 1)
-    # @bedroom_amenities = @property.amenities.where(amenity_type: 2)
-    # @entertainment_amenities = @property.amenities.where(amenity_type: 4)
-    # @cooling_amenities = @property.amenities.where(amenity_type: 3)
-    # @safety_amenities = @property.amenities.where(amenity_type: 9)
-    # @internet_amenities = @property.amenities.where(amenity_type: 6)
-    # @kitchen_amenities = @property.amenities.where(amenity_type: 7)
-    # @outdoor_amenities = @property.amenities.where(amenity_type: 8)
-    # @facilities_amenities = @property.amenities.where(amenity_type: 5)
-    # @services_amenities = @property.amenities.where(amenity_type: 10)
-    # @not_amenities = @property.amenities.where(amenity_type: 12)
   end
 
   def edit; end
