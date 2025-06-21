@@ -40,9 +40,7 @@ class AmenitiesController < ApplicationController
     redirect_to amenities_url, notice: 'Amenity was successfully deleted.'
   end
 
-  def displayimage
-    puts "@amenity.image = #{@amenity.image}"
-  end
+  def displayimage; end
 
   private
 

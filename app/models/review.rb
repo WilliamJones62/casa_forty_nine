@@ -2,6 +2,7 @@
 
 # This class contains Review model logic
 class Review < ApplicationRecord
+  STAR_COUNT_FIELDS = ['', 'star_1_count', 'star_2_count', 'star_3_count', 'star_4_count', 'star_5_count'].freeze
   validates_presence_of :title
   validates_presence_of :body
   validates_presence_of :rating
@@ -27,18 +28,30 @@ class Review < ApplicationRecord
 
   def update_average_rating_for_updated_reviews
     reviewable.total_rating -= (@rating - rating)
+    reviewable[STAR_COUNT_FIELDS[@rating]] -= 1
+    load_star_count
     update_reviewable(reviewable)
   end
 
   def update_average_rating_for_destroyed_reviews
     @reviewable.total_rating -= @rating
+    @reviewable[STAR_COUNT_FIELDS[rating]] -= 1
     update_reviewable(@reviewable)
   end
 
   def update_average_rating_for_new_reviews
     reviewable.total_rating ? reviewable.total_rating += rating : reviewable.total_rating = rating
-
+    load_star_count
     update_reviewable(reviewable)
+  end
+
+  def load_star_count
+    if reviewable[STAR_COUNT_FIELDS[rating]]
+      reviewable[STAR_COUNT_FIELDS[rating]] += 1
+    else
+      reviewable[STAR_COUNT_FIELDS[rating]] =
+        1
+    end
   end
 
   def update_reviewable(reviewable)

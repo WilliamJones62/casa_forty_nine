@@ -13,7 +13,6 @@ class PropertiesController < ApplicationController
     (0..@amenity_titles.length).each do |i|
       @property_amenities << @property.amenities.where(amenity_type: i)
     end
-
   end
 
   def edit; end

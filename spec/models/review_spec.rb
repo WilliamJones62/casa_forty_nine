@@ -15,6 +15,7 @@ RSpec.describe Review, type: :model do
       expect(@property.reviews_count).to eq(1)
       expect(@property.average_rating).to eq(5)
       expect(@property.total_rating).to eq(5)
+      expect(@property.star_5_count).to eq(1)
     end
 
     it 'updates the property when a second review is created' do
@@ -24,6 +25,7 @@ RSpec.describe Review, type: :model do
       expect(@property.reviews_count).to eq(2)
       expect(@property.average_rating).to eq(3)
       expect(@property.total_rating).to eq(6)
+      expect(@property.star_1_count).to eq(1)
     end
 
     it 'updates the property when a review is updated' do
@@ -32,6 +34,8 @@ RSpec.describe Review, type: :model do
       expect(@property.reviews_count).to eq(2)
       expect(@property.average_rating).to eq(2)
       expect(@property.total_rating).to eq(4)
+      expect(@property.star_5_count).to eq(0)
+      expect(@property.star_3_count).to eq(1)
     end
 
     it 'updates the property when a review is destroyed' do
@@ -39,6 +43,7 @@ RSpec.describe Review, type: :model do
       expect(@property.reviews_count).to eq(1)
       expect(@property.average_rating).to eq(1)
       expect(@property.total_rating).to eq(1)
+      expect(@property.star_3_count).to eq(0)
       @property.destroy
     end
   end
