@@ -88,7 +88,7 @@
       </div>
     </div>
     <div class="col order-2 order-md-3 my-progress-bar">
-      <% for i in 1..5 do %>
+      <% 5.downto(1) do |i| %>
       <div class="progress mb-3" style="height: 6px;">
         <div class="progress-bar bg-warning" role="progressbar" style="width: <%= review_percentage(@property, i) %>%;"
             aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
@@ -107,12 +107,16 @@
   </div>
   <div class="d-flex align-items-start border-bottom pb-4 mb-4">
     <% @property.reviews.first(3).each do |review| %>
-    <img src="../assets/images/avatar/avatar-2.jpg" alt=""
-      class="rounded-circle avatar-lg">
     <div class="ms-3">
       <h4 class="mb-1">
-        Max Hawkins
-        <span class="ms-1 fs-6 "><%= review_month_year(review) %></span>
+      <% if review.user.image %>
+        <%= image_tag review.user.image, class: "erich_image rounded-circle p-2" %>
+      <% end %>
+      <%= review.user.full_name %>
+      <br>
+      <span class="ms-1 fs-6 "><%= user_address(review) %></span>
+      <br>
+      <span class="ms-1 fs-6 "><%= review_month_year(review) %></span>
       </h4>
       <div class=" mb-2">
         <span class="fs-6">

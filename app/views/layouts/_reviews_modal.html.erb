@@ -9,11 +9,15 @@
       <div class="modal-body">
         <div class="col">
         <% @property.reviews.each do |review| %>
-          <img src="../assets/images/avatar/avatar-2.jpg" alt=""
-            class="rounded-circle avatar-lg">
           <div class="ms-3">
             <h4 class="mb-1">
-              Max Hawkins
+              <% if !review.user.image.blank? %>
+                <%= image_tag review.user.image, class: "erich_image rounded-circle p-2" %>
+              <% end %>
+              <%= review.user.full_name %>
+              <br>
+              <span class="ms-1 fs-6 "><%= user_address(review) %></span>
+              <br>
               <span class="ms-1 fs-6 "><%= review_month_year(review) %></span>
             </h4>
             <div class=" mb-2">

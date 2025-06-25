@@ -1,3 +1,14 @@
+<script>
+async function copyURLToClipboard() {
+    try {
+        await navigator.clipboard.writeText(window.location.href);
+        console.log('URL copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy URL: ', err);
+      }
+    alert("Link copied!");
+}
+</script>
 <!-- share Modal -->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

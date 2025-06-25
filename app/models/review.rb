@@ -9,7 +9,8 @@ class Review < ApplicationRecord
   validates :rating, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5, only_integer: true }
 
   belongs_to :reviewable, polymorphic: true, counter_cache: true
-
+  belongs_to :user
+  
   before_update :save_rating_value
   before_destroy :save_rating_value
   before_destroy :save_reviewable
