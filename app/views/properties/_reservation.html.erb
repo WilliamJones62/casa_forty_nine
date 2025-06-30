@@ -1,0 +1,45 @@
+<script src="https://unpkg.com/js-datepicker/dist/datepicker.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+
+<div class="d-flex p-2 m-5">
+  <div class="container shadow py-2">
+    <p class="fs-3">Reserve <%= @property.name %> </p>
+    <div class="row justify-content-center">
+        <div class="col">
+          <p class="fw-bold"> CHECK-IN </p>
+            <input type="text" class="form-control test-datepickers" id="dp1">
+        </div>
+        <div class="col">
+          <p class="fw-bold"> CHECKOUT </p>
+          <input type="text" class="form-control test-datepickers" id="dp2">
+        </div>
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+const items = document.querySelectorAll(".test-datepickers");
+const minimumDate = new Date("<%= @minimum_date %>");
+const maximumDate = new Date("<%= @maximum_date %>");
+var reserved_dates = [];
+<% @reserved_dates.each do |date| %>
+  reserved_dates.push(new Date("<%= date %>"));
+<% end %>
+for(let i=0; i<items.length; i++){
+  const node = items[i];
+  
+  datepicker(node, {
+    minDate: minimumDate,
+    maxDate: maximumDate,
+    disabledDates: reserved_dates,
+    position: 'tl',
+    formatter: (input, date, instance) => {
+      const offset = date.getTimezoneOffset();
+      date = new Date(date.getTime() - (offset * 60 * 1000));
+      input.value = date.toISOString().split('T')[0];
+    },
+    showAllDates: true,
+    minDate: new Date()
+  });
+}
+</script>

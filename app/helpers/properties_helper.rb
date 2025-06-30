@@ -2,12 +2,11 @@
 
 # This module contains Property helper logic
 module PropertiesHelper
-
   def user_address(review)
-    address_fields = ['city', 'state', 'country']
+    address_fields = %w[city state country]
     address = ''
     address_fields.each do |af|
-      address += review.user[af] + ', ' if !review.user[af].blank?
+      address += "#{review.user[af]}, " unless review.user[af].blank?
     end
     address = address[0...-2] if address
     address
@@ -24,7 +23,7 @@ module PropertiesHelper
 
   def review_percentage(property, stars)
     star_count_fields = ['', 'star_1_count', 'star_2_count', 'star_3_count', 'star_4_count', 'star_5_count']
-    if property[star_count_fields[stars]] && property.reviews_count > 0
+    if property[star_count_fields[stars]] && property.reviews_count.positive?
       ((property[star_count_fields[stars]] / property.reviews_count.to_f) * 100).round.to_s
     else
       0

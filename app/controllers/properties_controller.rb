@@ -10,9 +10,12 @@ class PropertiesController < ApplicationController
     @amenity_titles = ['', 'Bathroom', 'Bedroom and laundry', 'Heating and cooling', 'Entertainment',
                        'Parking and facilities', 'Internet and office', 'Kitchen and dining',
                        'Outdoor', 'Home safety', 'Services', 'Scenic views', 'Not included']
-    (0..@amenity_titles.length).each do |i|
-      @property_amenities << @property.amenities.where(amenity_type: i)
-    end
+    (0..@amenity_titles.length).each { |i| @property_amenities << @property.amenities.where(amenity_type: i) }
+    @maximum_date = (Date.tomorrow + 1.year).strftime('%F')
+    # @maximum_date = date.strftime('%F')
+    @minimum_date = (Date.today + 2.days).strftime('%F')
+    # @minimum_date = date.strftime('%F')
+    load_reserved_dates
   end
 
   def edit; end
@@ -36,6 +39,16 @@ class PropertiesController < ApplicationController
   end
 
   private
+
+  def load_reserved_dates
+    @reserved_dates = []
+    @property.reservations.future_reservations.all.each do |fr|
+      start_date = fr.start_date < Date.today ? Date.today : fr.start_date
+      ((start_date + 1.day)..(fr.end_date + 1.day)).each do |date|
+        @reserved_dates << date.strftime('%F')
+      end
+    end
+  end
 
   def set_amenities_loop
     amenities_count = @property.amenities.length

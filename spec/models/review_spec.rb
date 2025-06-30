@@ -7,7 +7,9 @@ require 'rails_helper'
 RSpec.describe Review, type: :model do
   before(:context) do
     @property = create(:property)
-    @review = create(:review, reviewable: @property)
+    @user = create(:user)
+    @review = create(:review, reviewable: @property, user: @user)
+    @user = create(:user)
   end
 
   describe 'reviews' do
@@ -19,7 +21,7 @@ RSpec.describe Review, type: :model do
     end
 
     it 'updates the property when a second review is created' do
-      review2 = create(:review, reviewable: @property)
+      review2 = create(:review, reviewable: @property, user: @user)
       review2.rating = 1
       review2.save
       expect(@property.reviews_count).to eq(2)

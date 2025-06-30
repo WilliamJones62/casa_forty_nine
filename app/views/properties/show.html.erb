@@ -23,20 +23,25 @@
 </div>
 
 <div class="d-flex p-2 m-5">
-  <div>
-    <h5>Entire home in <%= @property.city%>, <%= @property.country%></h5>
-    <p> <%= @property.guests %> guests . <%= @property.bedrooms %> bedrooms . <%= @property.beds %> beds . <%= @property.baths %> baths </p>
-    <h5><%= image_tag "erich_image", class: "erich_image rounded-circle p-2" %><%=@property.name%> Hosted by Erich </h5>
-    <p> <%= @property.description.html_safe %> </p>
-    <p> <%= @property.address %> </p>
-    <p> <%= humanized_money_with_symbol(@property.price)%> </p>
-    <% if @property.average_rating %>
-      <p> <%= @property.average_rating %> </p>
-    <% end %>
-    <p> <%= @property.available_dates.first %> </p>
+  <div class="row"
+    <div class="col-sm-8">
+      <h5>Entire home in <%= @property.city%>, <%= @property.country%></h5>
+      <p> <%= @property.guests %> guests . <%= @property.bedrooms %> bedrooms . <%= @property.beds %> beds . <%= @property.baths %> baths </p>
+      <h5><%= image_tag "erich_image", class: "erich_image rounded-circle p-2" %><%=@property.name%> Hosted by Erich </h5>
+      <p> <%= @property.description.html_safe %> </p>
+      <p> <%= @property.address %> </p>
+      <p> <%= humanized_money_with_symbol(@property.price)%> </p>
+      <% if @property.average_rating %>
+        <p> <%= @property.average_rating %> </p>
+      <% end %>
+      <p> <%= @property.available_dates.first %> </p>
+    </div>
+    <div class="col-sm-4">
+      <%= render 'reservation' %>
+    </div>
   </div>
+  <%= render 'amenities' %>
+  <%= render 'reviews' %>
 </div>
-<%= render 'amenities' %>
-<%= render 'reviews' %>
 
 <%= render 'layouts/share_modal' %>
