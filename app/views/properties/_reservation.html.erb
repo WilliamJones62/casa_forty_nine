@@ -11,35 +11,112 @@
         </div>
         <div class="col">
           <p class="fw-bold"> CHECKOUT </p>
-          <input type="text" class="form-control test-datepickers" id="dp2">
+          <input type="text" class="form-control test-datepickers" id="dp2" readonly>
         </div>
-      </div>
+    </div>
+    <br>
+    <p class="fs-5" id="priceDisplay">$<span id="price"></span> for <span id="nights"></span> nights</p>
   </div>
 </div>
 
 <script type="text/javascript">
-const items = document.querySelectorAll(".test-datepickers");
-const minimumDate = new Date("<%= @minimum_date %>");
-const maximumDate = new Date("<%= @maximum_date %>");
-var reserved_dates = [];
-<% @reserved_dates.each do |date| %>
-  reserved_dates.push(new Date("<%= date %>"));
-<% end %>
-for(let i=0; i<items.length; i++){
-  const node = items[i];
-  
-  datepicker(node, {
+document.addEventListener('DOMContentLoaded', function() {
+  const dp1 = document.querySelector("#dp1");
+  const dp2 = document.querySelector("#dp2");
+  const minimumDate = new Date("<%= @minimum_date %>");
+  const maximumDate = new Date("<%= @maximum_date %>");
+  var reserved_dates = [];
+  const x = document.getElementById("priceDisplay");
+  x.style.display = "none";
+  <% @reserved_dates.each do |date| %>
+    reserved_dates.push(new Date("<%= date %>"));
+  <% end %>
+  checkIn = datepicker(dp1, {
+    id: 1,
     minDate: minimumDate,
     maxDate: maximumDate,
     disabledDates: reserved_dates,
-    position: 'tl',
+    onSelect: (instance, date) => {
+      // instance: The datepicker instance
+      // date: The selected Date object
+      setNewEndDate(checkOut, date, reserved_dates);
+    },
     formatter: (input, date, instance) => {
       const offset = date.getTimezoneOffset();
       date = new Date(date.getTime() - (offset * 60 * 1000));
       input.value = date.toISOString().split('T')[0];
     },
-    showAllDates: true,
-    minDate: new Date()
+    showAllDates: true
   });
+  checkOut = datepicker(dp2, {
+    id: 1,
+    minDate: minimumDate,
+    maxDate: maximumDate,
+    disabledDates: reserved_dates,
+    onSelect: (instance, date) => {
+      setNewStartDate(checkIn, date, reserved_dates);
+    },
+    formatter: (input, date, instance) => {
+      const offset = date.getTimezoneOffset();
+      date = new Date(date.getTime() - (offset * 60 * 1000));
+      input.value = date.toISOString().split('T')[0];
+    },
+    showAllDates: true
+  });
+});
+
+function setNewEndDate(instance, date, reserved_dates) {
+  date.setDate(date.getDate() + 1);
+  try {
+    instance.setMin(date);
+  }
+  catch(err) {
+
+  }
+  calculatePrice(instance, reserved_dates);
 }
+
+function setNewStartDate(instance, date, reserved_dates) {
+  date.setDate(date.getDate() - 1);
+  try {
+    instance.setMax(date);
+  }
+  catch(err) {
+    
+  }
+  calculatePrice(instance, reserved_dates);
+}
+
+function calculatePrice(instance, reserved_dates) {
+  const x = document.getElementById("priceDisplay");
+  var dateRange = instance.getRange();
+  if (typeof dateRange["start"] === "undefined" || typeof dateRange["end"] === "undefined") {
+  // range not complete
+    x.style.display = "none";
+    return;
+  }
+  if (reserved_dates.length != 0 && reserved_dates[0] < dateRange["end"] && reserved_dates[reserved_dates.length -1] > dateRange["start"]) {
+  // there are potential clashes with other reservations
+    for (let i = 0; i < reserved_dates.length; i++) {
+      if (reserved_dates[i] > dateRange["start"] && reserved_dates[i] < dateRange["end"]) {
+        alert("Reservation must not include unavailable dates!");
+        return;
+      }
+    }
+  }
+  // load the price and number of nights into the DOM
+  const nights = getNumberOfDaysBetweenDates(dateRange["start"], dateRange["end"]);
+  const price = nights * <%= @property.price_cents / 100 %>;
+  document.getElementById("nights").innerHTML = nights;
+  document.getElementById("price").innerHTML = price;
+  x.style.display = "block";
+}
+
+function getNumberOfDaysBetweenDates(date1, date2) {
+  const timeDifference = date2.getTime() - date1.getTime();
+  const millisecondsInADay = 1000 * 60 * 60 * 24;
+
+  return Math.round(timeDifference / millisecondsInADay);
+}
+
 </script>

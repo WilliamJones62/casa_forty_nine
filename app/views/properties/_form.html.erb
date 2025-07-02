@@ -69,22 +69,35 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th> <%= form.label :latitude %></th>
-          <th> <%= form.label :longitude %></th>
           <th> <%= form.label :price_cents %></th>
+          <th> <%= form.label :high_price_cents %></th>
           <th> <%= form.label :price_currency %></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td> <%= form.number_field :latitude %></td>
-          <td> <%= form.number_field :longitude %></td>
           <td> <%= form.number_field :price_cents %></td>
+          <td> <%= form.number_field :high_price_cents %></td>
           <td> <%= form.text_field :price_currency %></td>
         </tr>
       </tbody>
     </table>
   
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th> <%= form.label :high_start_date %></th>
+          <th> <%= form.label :high_end_date %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> <%= form.date_field :high_start_date %></td>
+          <td> <%= form.date_field :high_end_date %></td>
+        </tr>
+      </tbody>
+    </table>
+
     <h3>Images</h3>
     <%= form.file_field :images, multiple: true %>
     <br>

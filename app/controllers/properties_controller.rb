@@ -12,9 +12,7 @@ class PropertiesController < ApplicationController
                        'Outdoor', 'Home safety', 'Services', 'Scenic views', 'Not included']
     (0..@amenity_titles.length).each { |i| @property_amenities << @property.amenities.where(amenity_type: i) }
     @maximum_date = (Date.tomorrow + 1.year).strftime('%F')
-    # @maximum_date = date.strftime('%F')
     @minimum_date = (Date.today + 2.days).strftime('%F')
-    # @minimum_date = date.strftime('%F')
     load_reserved_dates
   end
 
