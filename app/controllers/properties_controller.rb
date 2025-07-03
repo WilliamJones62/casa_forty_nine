@@ -36,6 +36,20 @@ class PropertiesController < ApplicationController
     render 'displayimages'
   end
 
+  def reservation
+    reservation = @property.reservations.new
+    reservation.start_date = params[:checkin]
+    reservation.end_date = params[:checkout]
+    nights = reservation.end_date - reservation.start_date
+    reservation.price_cents = nights * @property.price_cents
+    reservation.user_id = current_user.id
+    if reservation.save
+      redirect_to @property, notice: 'Reservation was successfully created.'
+    else
+      redirect_to @property, notice: 'Reservation was not successfully created.'
+    end
+  end
+
   private
 
   def load_reserved_dates

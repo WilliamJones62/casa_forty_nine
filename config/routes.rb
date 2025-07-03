@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'properties/displayimages'
   get 'properties/deleteimage'
   get 'properties/images'
+  get 'properties/reservation'
   resources :properties
   devise_for :users
   get 'home/landing'
