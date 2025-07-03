@@ -11,7 +11,7 @@
     <% @property.images.each do |image| %>
         <tr>
             <td><%= image_tag image, class: "img-fluid" %></td>
-            <td><%= link_to 'Delete',  controller: "properties", action: "deleteimage", id: image, class: "btn btn-primary" %></td>
+            <td><%= link_to 'Delete',  controller: "properties", action: "deleteimage", id: image, class: "btn btn-secondary" %></td>
         </tr>
     <% end %>
     </tbody>
