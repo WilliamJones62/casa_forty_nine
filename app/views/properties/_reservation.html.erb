@@ -3,21 +3,21 @@
 
 <div class="d-flex p-2 m-5">
   <div class="container shadow py-2">
-    <p class="fs-3">Reserve <%= @property.name %> </p>
+    <h4 class="mb-3">Reserve <%= @property.name %></h4>
     <div class="row justify-content-center">
     <form action="/properties/reservation">
         <div class="col">
           <p class="fw-bold"> CHECK-IN </p>
-          <input type="text" class="form-control test-datepickers" name="checkin" id="dp1" readonly>
+          <input type="text" class="form-control test-datepickers" name="checkin" id="dp1" value="<%= @checkin %>" readonly>
         </div>
         <div class="col">
           <p class="fw-bold"> CHECKOUT </p>
-          <input type="text" class="form-control test-datepickers" name="checkout" id="dp2" readonly>
+          <input type="text" class="form-control test-datepickers" name="checkout" id="dp2" value="<%= @checkout %>" readonly>
         </div>
         <% if user_signed_in? %>
         <div class="justify-content-center d-grid">
           <br>
-          <input type="submit" value="Reserve" class="btn btn-secondary" id="reservationSubmit">
+          <input type="submit" value="Reserve" class="w-100 btn btn-secondary btn-lg" id="reservationSubmit">
         </div>
         <% end %>
 
@@ -83,6 +83,11 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     showAllDates: true
   });
+  if (window.location.pathname == "/properties/reservation") {
+    document.getElementById("nights").innerHTML = <%= @nights %>;
+    document.getElementById("price").innerHTML = <%= @price %>;
+    x.style.display = "block";
+  }
 });
 
 function setNewEndDate(instance, date, reserved_dates) {
@@ -137,7 +142,9 @@ function calculatePrice(instance, reserved_dates) {
   document.getElementById("price").innerHTML = price;
   x.style.display = "block";
   <% if user_signed_in? %>
-  y.style.display = "block";
+  if (window.location.pathname != '/properties/reservation') {
+    y.style.display = "block";
+  }
   <% end %>
 }
 

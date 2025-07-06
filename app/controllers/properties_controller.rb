@@ -11,9 +11,12 @@ class PropertiesController < ApplicationController
                        'Parking and facilities', 'Internet and office', 'Kitchen and dining',
                        'Outdoor', 'Home safety', 'Services', 'Scenic views', 'Not included']
     (0..@amenity_titles.length).each { |i| @property_amenities << @property.amenities.where(amenity_type: i) }
-    @maximum_date = (Date.tomorrow + 1.year).strftime('%F')
-    @minimum_date = (Date.today + 2.days).strftime('%F')
+    set_date_boundaries
     load_reserved_dates
+    @checkin = ''
+    @checkout = ''
+    @nights = 0
+    @price = 0
   end
 
   def edit; end
@@ -37,6 +40,15 @@ class PropertiesController < ApplicationController
   end
 
   def reservation
+    @checkin = params[:checkin]
+    @checkout = params[:checkout]
+    @nights = @checkout.to_date - @checkin.to_date
+    @price = @nights * (@property.price_cents / 100)
+    load_reserved_dates
+    set_date_boundaries
+  end
+
+  def confirm
     reservation = @property.reservations.new
     reservation.start_date = params[:checkin]
     reservation.end_date = params[:checkout]
@@ -66,6 +78,11 @@ class PropertiesController < ApplicationController
     amenities_count = @property.amenities.length
     amenities_count = 10 if amenities_count > 10
     @amenities_loop = amenities_count / 2
+  end
+
+  def set_date_boundaries
+    @maximum_date = (Date.tomorrow + 1.year).strftime('%F')
+    @minimum_date = (Date.today + 2.days).strftime('%F')
   end
 
   def set_property
