@@ -15,6 +15,8 @@ gem 'money-rails'
 
 gem 'devise'
 
+gem 'stripe-rails', '~> 2.6'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 

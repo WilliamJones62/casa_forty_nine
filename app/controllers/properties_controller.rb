@@ -42,8 +42,12 @@ class PropertiesController < ApplicationController
   def reservation
     @checkin = params[:checkin]
     @checkout = params[:checkout]
-    @nights = @checkout.to_date - @checkin.to_date
+    @selectedin = @checkin.to_date
+    @selectedout = @checkout.to_date
+    @nights = @selectedout - @selectedin
     @price = @nights * (@property.price_cents / 100)
+    @selectedin = @selectedin.strftime('%F')
+    @selectedout = @selectedout.strftime('%F')
     load_reserved_dates
     set_date_boundaries
   end

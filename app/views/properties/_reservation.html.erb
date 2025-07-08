@@ -40,22 +40,32 @@ document.addEventListener('DOMContentLoaded', function() {
   const dp2 = document.querySelector("#dp2");
   const minimumDate = new Date("<%= @minimum_date %>");
   const maximumDate = new Date("<%= @maximum_date %>");
+  <% if @checkin != '' %>
+    const selectedIn = new Date("<%= @selectedin %>".replace(/-/g, '\/').replace(/T.+/, ''));
+  <% end %>
+  <% if @checkout != '' %>
+    const selectedOut = new Date("<%= @selectedout %>".replace(/-/g, '\/').replace(/T.+/, ''));
+  <% end %>
   var reserved_dates = [];
   const x = document.getElementById("priceDisplay");
   x.style.display = "none";
   <% if user_signed_in? %>
-  const y = document.getElementById("reservationSubmit");
-  y.style.display = "none";
+    const y = document.getElementById("reservationSubmit");
+    y.style.display = "none";
   <% end %>
 
   <% @reserved_dates.each do |date| %>
     reserved_dates.push(new Date("<%= date %>"));
   <% end %>
+
   checkIn = datepicker(dp1, {
     id: 1,
     minDate: minimumDate,
     maxDate: maximumDate,
     disabledDates: reserved_dates,
+    <% if @checkin != '' %>
+      dateSelected: selectedIn,
+    <% end %>
     onSelect: (instance, date) => {
       // instance: The datepicker instance
       // date: The selected Date object
@@ -73,6 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
     minDate: minimumDate,
     maxDate: maximumDate,
     disabledDates: reserved_dates,
+    <% if @checkout != '' %>
+      dateSelected: selectedOut,
+    <% end %>
     onSelect: (instance, date) => {
       setNewStartDate(checkIn, date, reserved_dates);
     },
