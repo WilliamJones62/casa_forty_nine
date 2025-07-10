@@ -157,6 +157,9 @@ function calculatePrice(instance, reserved_dates) {
   <% if user_signed_in? %>
   if (window.location.pathname != '/properties/reservation') {
     y.style.display = "block";
+  } else {
+    document.getElementById("checkin_strip").value = document.getElementById("dp1").value;
+    document.getElementById("checkout_strip").value = document.getElementById("dp2").value;
   }
   <% end %>
 }

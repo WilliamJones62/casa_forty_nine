@@ -6,17 +6,13 @@ class PropertiesController < ApplicationController
 
   def show
     set_amenities_loop
-    @property_amenities = []
+    initialize_instance_variables
     @amenity_titles = ['', 'Bathroom', 'Bedroom and laundry', 'Heating and cooling', 'Entertainment',
                        'Parking and facilities', 'Internet and office', 'Kitchen and dining',
                        'Outdoor', 'Home safety', 'Services', 'Scenic views', 'Not included']
     (0..@amenity_titles.length).each { |i| @property_amenities << @property.amenities.where(amenity_type: i) }
     set_date_boundaries
     load_reserved_dates
-    @checkin = ''
-    @checkout = ''
-    @nights = 0
-    @price = 0
   end
 
   def edit; end
@@ -52,20 +48,6 @@ class PropertiesController < ApplicationController
     set_date_boundaries
   end
 
-  def confirm
-    reservation = @property.reservations.new
-    reservation.start_date = params[:checkin]
-    reservation.end_date = params[:checkout]
-    nights = reservation.end_date - reservation.start_date
-    reservation.price_cents = nights * @property.price_cents
-    reservation.user_id = current_user.id
-    if reservation.save
-      redirect_to @property, notice: 'Reservation was successfully created.'
-    else
-      redirect_to @property, notice: 'Reservation was not successfully created.'
-    end
-  end
-
   private
 
   def load_reserved_dates
@@ -91,6 +73,14 @@ class PropertiesController < ApplicationController
 
   def set_property
     @property = Property.last
+  end
+
+  def initialize_instance_variables
+    @property_amenities = []
+    @checkin = ''
+    @checkout = ''
+    @nights = 0
+    @price = 0
   end
 
   def property_params

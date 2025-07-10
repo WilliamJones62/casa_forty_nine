@@ -20,6 +20,9 @@
   </head>
 
   <body>
+    <% flash.each do |key, value| %>
+      <div class="mt-4 p-5 bg-primary text-white rounded"><%= value %></div>
+    <% end %>
     <%= render 'layouts/header' %>
     <%= render 'layouts/casa_49' %>
     <%= yield %>

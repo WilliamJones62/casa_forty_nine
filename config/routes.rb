@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'properties/deleteimage'
   get 'properties/images'
   get 'properties/reservation'
-  post 'properties/confirm'
+  post 'reservations/confirm'
   resources :properties
   devise_for :users
   get 'home/landing'

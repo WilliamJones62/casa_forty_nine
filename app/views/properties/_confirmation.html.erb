@@ -1,7 +1,9 @@
 <div class="d-flex p-2 m-5">
   <div class="container shadow py-2">
     <h4 class="mb-3">Payment</h4>
-    <%= stripe_elements_tag(submit_path: properties_confirm_path) do %>
+    <%= stripe_elements_tag(submit_path: reservations_confirm_path) do %>
+      <%= text_field :checkin, :strip  %>
+      <%= text_field :checkout, :strip %>
     <% end %>
   </div>
 </div>
@@ -18,4 +20,10 @@
     padding-top: 5px;
     padding-bottom: 5px;
   }
-</style>
+  #checkin_strip {display: none;}
+  #checkout_strip {display: none;}
+  </style>
+
+<script type="text/javascript">
+
+</script>
