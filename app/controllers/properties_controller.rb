@@ -3,6 +3,7 @@
 # This class contains Property controller logic
 class PropertiesController < ApplicationController
   before_action :set_property
+  before_action :check_admin, only: %i[edit update deleteimage displayimages]
 
   def show
     set_amenities_loop
@@ -50,6 +51,12 @@ class PropertiesController < ApplicationController
 
   private
 
+  def check_admin
+    return unless current_user && !current_user.admin?
+
+    redirect_to root_path, alert: 'You are not authorized to access this page.'
+  end
+
   def load_reserved_dates
     @reserved_dates = []
     @property.reservations.future_reservations.all.each do |fr|
@@ -86,6 +93,6 @@ class PropertiesController < ApplicationController
   def property_params
     params.require(:property).permit(:name, :headline, :description, :address, :city, :state, :country, :latitude,
                                      :longitude, :price_cents, :price_currency, :bedrooms, :beds, :baths, :guests,
-                                     amenity_ids: [])
+                                     :cancellation_days, amenity_ids: [])
   end
 end

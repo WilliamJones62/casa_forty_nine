@@ -1,0 +1,14 @@
+<div class="d-flex p-2 m-5">
+  <div class="row"
+    <div class="col-sm-6">
+        <h4>Change Reservaion</h4>
+        <%= render 'layouts/reservation' %>
+    </div>
+    <div class="col-sm-6">
+        <h4>Cancel Reservaion</h4>
+        <a href="#" class="btn btn-danger d-bloc" data-bs-toggle="modal" data-bs-target="#cancellationModal">Cancel</a>
+        </div>
+  </div>
+</div>
+<%= render 'layouts/cancellation_modal' %>
+

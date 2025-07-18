@@ -1,0 +1,18 @@
+</div><!-- cancellation Modal -->
+<div class="modal fade" id="cancellationModal" tabindex="-1" role="dialog" aria-labelledby="cancellationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancellationModalLabel">Cancel Reservation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <p>Are you sure you want to cancel this reservation?</p>
+      </div>
+      <div class="modal-footer">
+        <%= button_to 'Yes', @reservation, class: "btn btn-danger", method: :delete %>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="No">No</button>
+      </div>
+    </div>
+  </div>
+</div>

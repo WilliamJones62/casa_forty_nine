@@ -15,4 +15,19 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}".squish
   end
+
+  def admin?
+    admin == true
+  end
+
+  def cancellable_reservations
+    future_res = if admin
+                   Reservation.future_reservations.all
+                 else
+                   reservations.future_reservations.all
+                 end
+    cancellable_res = []
+    future_res.each { |f| cancellable_res << f if f.start_date > Date.today + f.property.cancellation_days }
+    cancellable_res
+  end
 end

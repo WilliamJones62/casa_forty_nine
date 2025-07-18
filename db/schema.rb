@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_09_225253) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_11_215621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_09_225253) do
     t.integer "high_price_cents"
     t.date "high_start_date"
     t.date "high_end_date"
+    t.integer "cancellation_days"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -125,6 +126,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_09_225253) do
     t.string "state"
     t.string "country"
     t.string "stripe_id"
+    t.boolean "admin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

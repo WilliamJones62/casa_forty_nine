@@ -7,8 +7,11 @@ Rails.application.routes.draw do
   get 'properties/deleteimage'
   get 'properties/images'
   get 'properties/reservation'
-  post 'reservations/confirm'
   resources :properties
+  resources :reviews
+  get 'reservations/change'
+  post 'reservations/confirm'
+  resources :reservations
   devise_for :users
   get 'home/landing'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

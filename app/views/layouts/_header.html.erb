@@ -16,6 +16,14 @@
         <li class="nav-item">
         <%= link_to 'My Profile', edit_user_registration_path, class: "nav-link" %>
         </li>
+        <% if session[:reservations] && session[:reservations].length > 0 %>
+        <li class="nav-item">
+        <%= link_to 'My Reservations', reservations_path, class: "nav-link" %>
+        </li>
+        <% end %>
+        <% if current_user.admin? %>
+        <%= link_to 'Edit Property', edit_property_path(1), class: "nav-link" %>
+        <% end %>
         <% else %>
         <li class="nav-item">
           <%= link_to 'Log In', new_user_session_path, class: "nav-link" %>

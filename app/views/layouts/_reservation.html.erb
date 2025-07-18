@@ -1,0 +1,41 @@
+<%= render 'layouts/datepicker_files' %>
+
+<div class="d-flex p-2 m-5">
+  <div class="container shadow py-2">
+    <h4 class="mb-3">Reserve <%= @property.name %></h4>
+    <div class="row justify-content-center">
+    <% if defined? @edit %>
+    <form action="/reservations/change">
+      <input type="hidden" id="id" name="id" value="<%= @reservation.id %>">
+    <% else %>
+    <form action="/properties/reservation">
+    <% end %>
+        <div class="col">
+          <p class="fw-bold"> CHECK-IN </p>
+          <input type="text" class="form-control test-datepickers" name="checkin" id="dp1" value="<%= @checkin %>" readonly>
+        </div>
+        <div class="col">
+          <p class="fw-bold"> CHECKOUT </p>
+          <input type="text" class="form-control test-datepickers" name="checkout" id="dp2" value="<%= @checkout %>" readonly>
+        </div>
+        <% if user_signed_in? %>
+        <div class="justify-content-center d-grid">
+          <br>
+          <input type="submit" value="Reserve" class="w-100 btn btn-secondary btn-lg" id="reservationSubmit">
+        </div>
+        <% end %>
+
+    </form> 
+    </div>
+    <br>
+    <div id="priceDisplay">
+      <p class="fs-5">$<span id="price"></span> for <span id="nights"></span> nights</p>
+      <p class="fs-5">Price includes all fees</p>
+      <% if !user_signed_in? %>
+      <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign in to reserve this property</a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render 'layouts/datepicker_script' %>

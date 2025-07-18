@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :load_reservations
+
+  helper_method :current_reservations
 
   protected
 
@@ -16,5 +19,19 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update) do |u|
       u.permit(:first_name, :last_name, :city, :state, :country, :email, :password, :current_password, :image)
     end
+  end
+
+  def load_reservations
+    return unless user_signed_in?
+
+    session[:reservations] = current_user.reservations.future_reservations.order(:start_date)
+    # else
+    #   @reservations = []
+  end
+
+  def current_reservations
+    return unless user_signed_in?
+
+    @current_reservations ||= session[:reservations]
   end
 end

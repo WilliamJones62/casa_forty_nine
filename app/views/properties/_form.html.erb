@@ -88,12 +88,14 @@
         <tr>
           <th> <%= form.label :high_start_date %></th>
           <th> <%= form.label :high_end_date %></th>
+          <th> <%= form.label :cancellation_days %></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td> <%= form.date_field :high_start_date %></td>
           <td> <%= form.date_field :high_end_date %></td>
+          <td> <%= form.number_field :cancellation_days, step: 1 %></td>
         </tr>
       </tbody>
     </table>
