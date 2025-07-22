@@ -2,6 +2,8 @@
 
 # This class contains Application controller logic
 class ApplicationController < ActionController::Base
+  include Pundit::Authorization
+
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -24,9 +26,11 @@ class ApplicationController < ActionController::Base
   def load_reservations
     return unless user_signed_in?
 
-    session[:reservations] = current_user.reservations.future_reservations.order(:start_date)
-    # else
-    #   @reservations = []
+    session[:reservations] = if current_user.admin
+                               Reservation.future_reservations.order(:start_date)
+                             else
+                               current_user.reservations.future_reservations.order(:start_date)
+                             end
   end
 
   def current_reservations

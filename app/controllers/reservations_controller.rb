@@ -11,6 +11,7 @@ class ReservationsController < ApplicationController
   def index; end
 
   def edit
+    authorize @reservation
     load_edit_instance_variables
     @selectedin = @reservation.start_date.strftime('%F')
     @selectedout = @reservation.end_date.strftime('%F')
@@ -19,6 +20,7 @@ class ReservationsController < ApplicationController
   end
 
   def change
+    authorize @reservation
     redirect_to reservations_url, notice: 'Reservation was successfully changed.'
   end
 

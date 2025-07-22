@@ -3,7 +3,6 @@
 # This class contains Property controller logic
 class PropertiesController < ApplicationController
   before_action :set_property
-  before_action :check_admin, only: %i[edit update deleteimage displayimages]
 
   def show
     set_amenities_loop
@@ -16,9 +15,12 @@ class PropertiesController < ApplicationController
     load_reserved_dates
   end
 
-  def edit; end
+  def edit
+    authorize @property
+  end
 
   def update
+    authorize @property
     if @property.update(property_params)
       @property.images.attach(params[:property][:images])
       redirect_to @property, notice: 'Property was successfully updated.'
@@ -29,9 +31,12 @@ class PropertiesController < ApplicationController
 
   def images; end
 
-  def displayimages; end
+  def displayimages
+    authorize @property
+  end
 
   def deleteimage
+    authorize @property
     @property.images.find(params['id']).purge
     render 'displayimages'
   end
@@ -51,12 +56,6 @@ class PropertiesController < ApplicationController
 
   private
 
-  def check_admin
-    return unless current_user && !current_user.admin?
-
-    redirect_to root_path, alert: 'You are not authorized to access this page.'
-  end
-
   def load_reserved_dates
     @reserved_dates = []
     @property.reservations.future_reservations.all.each do |fr|
@@ -70,7 +69,7 @@ class PropertiesController < ApplicationController
   def set_amenities_loop
     amenities_count = @property.amenities.length
     amenities_count = 10 if amenities_count > 10
-    @amenities_loop = amenities_count / 2
+    @amenities_loop = amenities_count / 4
   end
 
   def set_date_boundaries

@@ -27,5 +27,8 @@ module CasaFortyNine
     # config.eager_load_paths << Rails.root.join("extras")
     config.stripe.publishable_key = ENV["STRIPE_PUBLISHABLE_KEY"]
     config.stripe.secret_key = ENV["STRIPE_SECRET_KEY"]
+    config.action_dispatch.rescue_responses["Pundit::NotAuthorizedError"] = :forbidden
+
+
   end
 end
