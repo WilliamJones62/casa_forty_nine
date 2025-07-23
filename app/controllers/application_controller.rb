@@ -8,8 +8,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :load_reservations
-
-  helper_method :current_reservations
+  before_action :load_review_reservations
 
   protected
 
@@ -26,16 +25,24 @@ class ApplicationController < ActionController::Base
   def load_reservations
     return unless user_signed_in?
 
-    session[:reservations] = if current_user.admin
-                               Reservation.future_reservations.order(:start_date)
-                             else
-                               current_user.reservations.future_reservations.order(:start_date)
-                             end
+    reservations = if current_user.admin
+                     Reservation.future_reservations
+                   else
+                     current_user.reservations.future_reservations
+                   end
+
+    session[:reservations] = true if reservations.length.positive?
   end
 
-  def current_reservations
+  def load_review_reservations
     return unless user_signed_in?
 
-    @current_reservations ||= session[:reservations]
+    reservations = if current_user.admin
+                     Reservation.past_reservations
+                   else
+                     current_user.reservations.past_reservations
+                   end
+
+    session[:review_reservations] = true if reservations.length.positive?
   end
 end

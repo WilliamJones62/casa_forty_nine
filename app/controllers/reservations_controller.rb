@@ -8,7 +8,13 @@ class ReservationsController < ApplicationController
   before_action :set_property
   before_action :set_reservation, only: %i[edit change destroy]
 
-  def index; end
+  def index
+    @reservations = if current_user.admin
+                      Reservation.future_reservations.order(:start_date)
+                    else
+                      current_user.reservations.future_reservations.order(:start_date)
+                    end
+  end
 
   def edit
     authorize @reservation

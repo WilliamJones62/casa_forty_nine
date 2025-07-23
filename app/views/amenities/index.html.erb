@@ -8,7 +8,6 @@
       <th>Type</th>
       <th>Description</th>
       <th>Edit</th>
-      <th>Delete</th>
     </tr>
   </thead>
 
@@ -18,7 +17,6 @@
         <td><%= amenity.amenity_type %></td>
         <td><%= amenity.description %></td>
         <td><%= link_to 'Edit', edit_amenity_path(amenity), class: "btn btn-secondary" %></td>
-        <td><%= link_to 'Delete', amenity, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-secondary" %></td>
       </tr>
     <% end %>
   </tbody>

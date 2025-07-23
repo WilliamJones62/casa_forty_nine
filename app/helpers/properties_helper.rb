@@ -10,7 +10,6 @@ module PropertiesHelper
     end
     address = address[0...-2] if address
     address
-    # "#{review.user.city}, #{review.user.state}, #{review.user.country}"
   end
 
   def review_month_year(review)

@@ -4,18 +4,26 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_review, only: %i[edit update destroy]
+  before_action :set_reservation, only: %i[new edit]
 
   def index
-    @reviews = review.all
+    @review_reservations = if current_user.admin
+                             Reservation.past_reservations.order(:start_date)
+                           else
+                             current_user.reservations.past_reservations.order(:start_date)
+                           end
   end
 
   def new
-    @review = review.new
+    @review = Review.new
   end
 
   def create
-    @review = review.new(review_params)
-
+    property = Property.first
+    @review = Review.new(review_params)
+    @review.reviewable = property
+    @review.user_id = current_user.id
+    @review.reservation_id = session[:reservation_id]
     if @review.save
       redirect_to reviews_path, notice: 'Review was successfully created.'
     else
@@ -41,10 +49,14 @@ class ReviewsController < ApplicationController
   private
 
   def set_review
-    @review = review.find(params[:id])
+    @review = Review.find(params[:id])
+  end
+
+  def set_reservation
+    session[:reservation_id] = params[:reservation_id]
   end
 
   def review_params
-    params.require(:review).permit(:review_type, :description)
+    params.require(:review).permit(:title, :body, :rating)
   end
 end

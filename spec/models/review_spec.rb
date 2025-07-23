@@ -8,8 +8,8 @@ RSpec.describe Review, type: :model do
   before(:context) do
     @property = create(:property)
     @user = create(:user)
-    @review = create(:review, reviewable: @property, user: @user)
-    @user = create(:user)
+    @reservation = create(:reservation, :far_past, user: @user, property: @property)
+    @review = create(:review, reviewable: @property, user: @user, reservation: @reservation)
   end
 
   describe 'reviews' do
@@ -21,7 +21,7 @@ RSpec.describe Review, type: :model do
     end
 
     it 'updates the property when a second review is created' do
-      review2 = create(:review, reviewable: @property, user: @user)
+      review2 = create(:review, reviewable: @property, user: @user, reservation: @reservation)
       review2.rating = 1
       review2.save
       expect(@property.reviews_count).to eq(2)

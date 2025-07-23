@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_11_215621) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_22_214947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,6 +108,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_11_215621) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.bigint "reservation_id", null: false
+    t.index ["reservation_id"], name: "index_reviews_on_reservation_id"
     t.index ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable_type_and_reviewable_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -135,5 +137,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_11_215621) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "reservations", "properties"
   add_foreign_key "reservations", "users"
+  add_foreign_key "reviews", "reservations"
   add_foreign_key "reviews", "users"
 end

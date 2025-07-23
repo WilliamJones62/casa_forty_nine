@@ -4,6 +4,7 @@
 class Reservation < ApplicationRecord
   belongs_to :property
   belongs_to :user
+  has_one :review
 
   validates_presence_of :start_date
   validates_presence_of :end_date

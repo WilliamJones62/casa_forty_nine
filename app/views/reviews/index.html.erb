@@ -1,1 +1,25 @@
-<h2>Index Review</h2>
+<p id="notice"><%= notice %></p>
+
+<h1>Reviews</h1>
+
+<table id="normal_dt" class="table" >
+  <thead>
+    <tr>
+      <th>Reservation Dates</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @review_reservations.each do |reservation| %>
+      <tr>
+        <td><%= display_date_range(reservation.start_date, reservation.end_date) %></td>
+        <% if reservation.review %>
+        <td><%= link_to 'Change Review', edit_review_path(reservation.review), class: "btn btn-secondary" %></td>
+        <% else %>
+        <td><%= link_to 'Add Review', new_review_path(reservation_id: reservation.id), class: "btn btn-secondary" %></td>
+        <% end %>
+        </tr>
+    <% end %>
+  </tbody>
+</table>

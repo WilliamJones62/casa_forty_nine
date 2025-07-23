@@ -10,6 +10,7 @@ class Review < ApplicationRecord
 
   belongs_to :reviewable, polymorphic: true, counter_cache: true
   belongs_to :user
+  belongs_to :reservation
 
   before_update :save_rating_value
   before_destroy :save_rating_value
