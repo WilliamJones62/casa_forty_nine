@@ -19,12 +19,9 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    property = Property.first
-    @review = Review.new(review_params)
-    @review.reviewable = property
-    @review.user_id = current_user.id
-    @review.reservation_id = session[:reservation_id]
+    load_review_data
     if @review.save
+      ReviewMailer.create_review(current_user, @review).deliver_now
       redirect_to reviews_path, notice: 'Review was successfully created.'
     else
       render :new
@@ -35,6 +32,7 @@ class ReviewsController < ApplicationController
 
   def update
     if @review.update(review_params)
+      ReviewMailer.update_review(current_user, @review).deliver_now
       redirect_to reviews_path, notice: 'Review was successfully updated.'
     else
       render :edit
@@ -54,6 +52,14 @@ class ReviewsController < ApplicationController
 
   def set_reservation
     session[:reservation_id] = params[:reservation_id]
+  end
+
+  def load_review_data
+    property = Property.first
+    @review = Review.new(review_params)
+    @review.reviewable = property
+    @review.user_id = current_user.id
+    @review.reservation_id = session[:reservation_id]
   end
 
   def review_params

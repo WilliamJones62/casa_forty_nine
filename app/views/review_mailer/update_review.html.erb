@@ -1,0 +1,8 @@
+<h1> Changed Review for Casa 49! </h1>
+<p> Guest <%= @user.full_name %> (<%= @user.email %>) wrote the following review; <br> <br>
+
+<h4><%= @review.title %> <br> <br>
+<p><%= @review.body %> <br> <br>
+Review Rating = <%= @review.rating %> <br> <br>
+Reservation dates <%= display_date(@review.reservation.start_date) %> - <%= display_date(@review.reservation.end_date) %>
+</p>
