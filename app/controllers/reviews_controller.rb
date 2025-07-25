@@ -21,7 +21,7 @@ class ReviewsController < ApplicationController
   def create
     load_review_data
     if @review.save
-      ReviewMailer.create_review(current_user, @review).deliver_now
+      ReviewMailer.create_review(current_user, @review).deliver_later
       redirect_to reviews_path, notice: 'Review was successfully created.'
     else
       render :new
@@ -32,7 +32,7 @@ class ReviewsController < ApplicationController
 
   def update
     if @review.update(review_params)
-      ReviewMailer.update_review(current_user, @review).deliver_now
+      ReviewMailer.update_review(current_user, @review).deliver_later
       redirect_to reviews_path, notice: 'Review was successfully updated.'
     else
       render :edit

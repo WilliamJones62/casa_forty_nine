@@ -86,7 +86,7 @@ class ReservationsController < ApplicationController
 
     reservation.charge_id = charge.id
     if reservation.save
-      ReservationMailer.confirm_reservation(current_user, reservation).deliver_now
+      ReservationMailer.confirm_reservation(current_user, reservation).deliver_later
       redirect_to root_path, notice: 'Reservation was successfully created.'
     else
       redirect_to @property, notice: 'Reservation was not successfully created.'

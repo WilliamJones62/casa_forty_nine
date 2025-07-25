@@ -92,6 +92,6 @@ class PropertiesController < ApplicationController
   def property_params
     params.require(:property).permit(:name, :headline, :description, :address, :city, :state, :country, :latitude,
                                      :longitude, :price_cents, :price_currency, :bedrooms, :beds, :baths, :guests,
-                                     :cancellation_days, amenity_ids: [])
+                                     :cancellation_days, :weekly_discount, :monthly_discount, amenity_ids: [])
   end
 end

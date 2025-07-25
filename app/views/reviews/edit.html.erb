@@ -2,3 +2,9 @@
 <%= render 'form', review: @review %>
 <br>
 <%= link_to 'List', reviews_path, class: "btn btn-secondary" %>
+
+<h4>Delete Review</h4>
+<a href="#" class="btn btn-danger d-bloc" data-bs-toggle="modal" data-bs-target="#cancellationModal">Delete</a>
+</div>
+
+<%= render 'layouts/cancellation_modal' %>
