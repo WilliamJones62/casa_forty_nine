@@ -44,10 +44,10 @@ class PropertiesController < ApplicationController
   def reservation
     @checkin = params[:checkin]
     @checkout = params[:checkout]
+    @price = params[:formprice]
     @selectedin = @checkin.to_date
     @selectedout = @checkout.to_date
     @nights = @selectedout - @selectedin
-    @price = @nights * (@property.price_cents / 100)
     @selectedin = @selectedin.strftime('%F')
     @selectedout = @selectedout.strftime('%F')
     load_reserved_dates
@@ -92,6 +92,7 @@ class PropertiesController < ApplicationController
   def property_params
     params.require(:property).permit(:name, :headline, :description, :address, :city, :state, :country, :latitude,
                                      :longitude, :price_cents, :price_currency, :bedrooms, :beds, :baths, :guests,
-                                     :cancellation_days, :weekly_discount, :monthly_discount, amenity_ids: [])
+                                     :cancellation_days, :weekly_discount, :monthly_discount, :high_price_cents, 
+                                     :high_start_date, :high_end_date, amenity_ids: [])
   end
 end

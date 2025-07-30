@@ -27,11 +27,12 @@ class ReservationsController < ApplicationController
 
   def change
     authorize @reservation
+
     redirect_to reservations_url, notice: 'Reservation was successfully changed.'
   end
 
   def destroy
-    # @reservation.destroy
+    @reservation.destroy
     redirect_to reservations_url, notice: 'Reservation was successfully cancelled.'
   end
 
@@ -96,7 +97,8 @@ class ReservationsController < ApplicationController
   def load_reservation_fields
     reservation = @property.reservations.new
     reservation = load_reservation_dates(reservation)
-    reservation.price_cents = calculate_price(reservation.end_date, reservation.start_date)
+    reservation.price_cents = params.dig('formprice', 'strip').to_i
+    # reservation.price_cents = calculate_price(reservation.end_date, reservation.start_date)
     reservation.user_id = current_user.id
     reservation
   end
@@ -109,6 +111,15 @@ class ReservationsController < ApplicationController
 
   def calculate_price(end_date, start_date)
     nights = end_date - start_date
-    nights * @property.price_cents
+    discount_nights = calculate_discount_nights(nights)
+    nights - discount_nights * @property.price_cents
+  end
+
+  def calculate_discount_nights(nights)
+    months = nights / 28
+    remaining_nights = nights % 28
+    weeks =  remaining_nights / 7
+    remaining_nights = remaining_nights % 7
+    (months * @property.monthly_discount) + (weeks * @property.weekly_discount)
   end
 end

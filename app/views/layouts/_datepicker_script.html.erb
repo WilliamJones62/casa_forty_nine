@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname == "/properties/reservation") {
     document.getElementById("nights").innerHTML = <%= @nights %>;
     document.getElementById("price").innerHTML = <%= @price %>;
+    document.getElementById("formprice").value = <%= @price %>;
+    document.getElementById("formprice_strip").value = <%= @price %>;
     x.style.display = "block";
   }
 });
@@ -117,6 +119,7 @@ function calculatePrice(instance, reserved_dates) {
   const price = nights * <%= @property.price_cents / 100 %>;
   document.getElementById("nights").innerHTML = nights;
   document.getElementById("price").innerHTML = price;
+  document.getElementById("formprice").value = price;
   x.style.display = "block";
   <% if user_signed_in? %>
   if (window.location.pathname != '/properties/reservation') {
@@ -124,6 +127,7 @@ function calculatePrice(instance, reserved_dates) {
   } else {
     document.getElementById("checkin_strip").value = document.getElementById("dp1").value;
     document.getElementById("checkout_strip").value = document.getElementById("dp2").value;
+    document.getElementById("formprice_strip").value = price;
   }
   <% end %>
 }

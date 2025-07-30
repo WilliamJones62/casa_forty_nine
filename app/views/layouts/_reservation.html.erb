@@ -18,6 +18,7 @@
           <p class="fw-bold"> CHECKOUT </p>
           <input type="text" class="form-control test-datepickers" name="checkout" id="dp2" value="<%= @checkout %>" readonly>
         </div>
+        <input type="hidden" id="formprice" name="formprice" value="<%= @price %>">
         <% if user_signed_in? %>
         <div class="justify-content-center d-grid">
           <br>
@@ -29,7 +30,7 @@
     </div>
     <br>
     <div id="priceDisplay">
-      <p class="fs-5">$<span id="price"></span> for <span id="nights"></span> nights</p>
+      <p class="fs-5">$<span id="price" value="<%= @price %>"></span> for <span id="nights" value="<%= @nights %>"></span> nights</p>
       <p class="fs-5">Price includes all fees</p>
       <% if !user_signed_in? %>
       <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign in to reserve this property</a>

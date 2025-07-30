@@ -4,6 +4,7 @@
     <%= stripe_elements_tag(submit_path: reservations_confirm_path) do %>
       <%= text_field :checkin, :strip  %>
       <%= text_field :checkout, :strip %>
+      <%= text_field :formprice, :strip %>
     <% end %>
   </div>
 </div>
@@ -22,6 +23,7 @@
   }
   #checkin_strip {display: none;}
   #checkout_strip {display: none;}
+  #formprice_strip {display: none;}
   </style>
 
 <script type="text/javascript">
