@@ -45,16 +45,22 @@ class PropertiesController < ApplicationController
     @checkin = params[:checkin]
     @checkout = params[:checkout]
     @price = params[:formprice]
-    @selectedin = @checkin.to_date
-    @selectedout = @checkout.to_date
-    @nights = @selectedout - @selectedin
-    @selectedin = @selectedin.strftime('%F')
-    @selectedout = @selectedout.strftime('%F')
+    @fullprice = params[:formfullprice]
+    @monthlydiscount = params[:formmonthlydiscount]
+    @nights = params[:formnights]
+    load_selected_dates
     load_reserved_dates
     set_date_boundaries
   end
 
   private
+
+  def load_selected_dates
+    @selectedin = @checkin.to_date
+    @selectedout = @checkout.to_date
+    @selectedin = @selectedin.strftime('%F')
+    @selectedout = @selectedout.strftime('%F')
+  end
 
   def load_reserved_dates
     @reserved_dates = []
@@ -92,7 +98,7 @@ class PropertiesController < ApplicationController
   def property_params
     params.require(:property).permit(:name, :headline, :description, :address, :city, :state, :country, :latitude,
                                      :longitude, :price_cents, :price_currency, :bedrooms, :beds, :baths, :guests,
-                                     :cancellation_days, :weekly_discount, :monthly_discount, :high_price_cents, 
+                                     :cancellation_days, :weekly_discount, :monthly_discount, :high_price_cents,
                                      :high_start_date, :high_end_date, amenity_ids: [])
   end
 end

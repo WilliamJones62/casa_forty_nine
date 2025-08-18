@@ -19,6 +19,9 @@
           <input type="text" class="form-control test-datepickers" name="checkout" id="dp2" value="<%= @checkout %>" readonly>
         </div>
         <input type="hidden" id="formprice" name="formprice" value="<%= @price %>">
+        <input type="hidden" id="formfullprice" name="formfullprice" value="<%= @fullprice %>">
+        <input type="hidden" id="formmonthlydiscount" name="formmonthlydiscount" value="<%= @monthlydiscount %>">
+        <input type="hidden" id="formnights" name="formnights" value="<%= @nights %>">
         <% if user_signed_in? %>
         <div class="justify-content-center d-grid">
           <br>
@@ -30,13 +33,24 @@
     </div>
     <br>
     <div id="priceDisplay">
-      <p class="fs-5">$<span id="price" value="<%= @price %>"></span> for <span id="nights" value="<%= @nights %>"></span> nights</p>
-      <p class="fs-5">Price includes all fees</p>
+      <p class="fs-6">
+        <% if @fullprice != @price %>
+        <span id="discountPrice">
+          <del>$<span id="fullprice" value="<%= @fullprice %>" class="fw-light"><%= number_with_delimiter(@fullprice) %></span></del>
+        </span>
+        <% end %>
+        <a href="#" class="link-opacity-100" data-bs-toggle="modal" data-bs-target="#priceModal">
+          $<span id="price" value="<%= @price %>"><%= number_with_delimiter(@price) %></span>
+        </a>
+        for <span id="nights" value="<%= @nights %>"></span> nights
+      </p>
+      <p class="fs-6">Price includes all fees</p>
       <% if !user_signed_in? %>
-      <a class="nav-link fs-5" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign in to reserve this property</a>
+      <a class="nav-link fs-6" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign in to reserve this property</a>
       <% end %>
     </div>
   </div>
 </div>
 
 <%= render 'layouts/datepicker_script' %>
+<%= render 'layouts/price_modal' %>

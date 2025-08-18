@@ -1,0 +1,24 @@
+</div><!-- price Modal -->
+<div class="modal fade" id="priceModal" tabindex="-1" role="dialog" aria-labelledby="priceModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="priceModalLabel">Price details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Price per night $<span id="modalrate"><%= @property.price_cents / 100 %></span> for <span id="modalnights"><%= @nights %></span> nights = $<span id="modalstandardprice"><%= number_with_delimiter(@fullprice) %></span><br>
+        <div id="discount">
+          <div id="monthlydiscount">
+            Monthly stay discount = $<span id="modalmonthlydiscount" value="<%= @monthlydiscount %>"><%= number_with_delimiter(@monthlydiscount) %></span><br>
+            <hr>
+            Price after discount = $<span id="modalprice" value="<%= @price %>"><%= number_with_delimiter(@price) %></span><br>
+          </div>
+          <div id="weeklydiscount">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

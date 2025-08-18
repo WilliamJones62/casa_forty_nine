@@ -115,11 +115,90 @@ function calculatePrice(instance, reserved_dates) {
     }
   }
   // load the price and number of nights into the DOM
-  const nights = getNumberOfDaysBetweenDates(dateRange["start"], dateRange["end"]);
-  const price = nights * <%= @property.price_cents / 100 %>;
+  var highStartMonth = <%= @property.high_start_date.month %> - 1;
+  const highStartDay = <%= @property.high_start_date.mday %>;
+  var highEndMonth = <%= @property.high_end_date.month %> - 1;
+  const highEndDay = <%= @property.high_end_date.mday %>;
+  var highStartYear = <%= @property.high_start_date.year %>;
+  var highEndYear = <%= @property.high_start_date.year %>;
+  const rangeStartYear = dateRange["start"].getFullYear();
+  var rangeStartMonth = dateRange["start"].getMonth();
+  const rangeStartDay = dateRange["start"].getDate();
+  const rangeEndYear = dateRange["end"].getFullYear();
+  var rangeEndMonth = dateRange["end"].getMonth();
+  const rangeEndDay = dateRange["end"].getDate();
+  var highEndAdjust = 0;
+  if (highStartMonth > highEndMonth) {
+    highEndAdjust = 1;
+  }
+  if (rangeStartMonth < highStartMonth || 
+     (rangeStartMonth == highStartMonth && rangeStartDay < highStartDay) ||
+     rangeStartMonth > highEndMonth ||
+     (rangeStartMonth == highEndMonth && rangeStartDay > highEndDay)) {
+    highStartYear = rangeStartYear;
+  } else {
+    highStartYear = rangeStartYear - 1;
+  }
+  highEndYear = highStartYear + highEndAdjust;
+  var highStartDate = new Date();
+  var highEndDate = new Date();
+  var lowEndDate = new Date();
+  var lowStartDate = new Date();
+  highStartDate.setFullYear(highStartYear, highStartMonth, highStartDay);
+  highStartDate.setHours(0, 0, 0, 0);
+  highEndDate.setFullYear(highEndYear, highEndMonth, highEndDay);
+  highEndDate.setHours(0, 0, 0, 0);
+
+  var lowNights = 0;
+  var highNights = 0;
+
+  if (dateRange["end"] < highStartDate || dateRange["start"] > highEndDate) {
+    lowNights = getNumberOfDaysBetweenDates(dateRange["start"], dateRange["end"]);
+    highNights = 0;
+  } else if (dateRange["end"] <= highEndDate && dateRange["start"] >= highStartDate) {
+    highNights = getNumberOfDaysBetweenDates(dateRange["start"], dateRange["end"]);
+    lowNights = 0;
+  } else if (dateRange["end"] >= highStartDate && dateRange["end"] <= highEndDate) {
+    highNights = getNumberOfDaysBetweenDates(highStartDate, dateRange["end"]);
+    lowEndDate = new Date(highStartDate - 86400000);
+    lowEndDate.setHours(0, 0, 0, 0);
+    lowNights = getNumberOfDaysBetweenDates(dateRange["start"], lowEndDate);
+  } else if (dateRange["start"] >= highStartDate && dateRange["start"] <= highEndDate) {
+    highNights = getNumberOfDaysBetweenDates(dateRange["start"], highEndDate);
+    lowStartDate = new Date(highEndDate + 86400000);
+    lowStartDate.setHours(0, 0, 0, 0);
+    lowNights = getNumberOfDaysBetweenDates(lowStartDate, dateRange["end"]);
+  } else {
+    highNights = getNumberOfDaysBetweenDates(highStartDate, highEndDate);
+    lowEndDate = new Date(highStartDate - 86400000);
+    lowEndDate.setHours(0, 0, 0, 0);
+    lowNights = getNumberOfDaysBetweenDates(dateRange["start"], lowEndDate);
+    lowStartDate = new Date(highEndDate + 86400000);
+    lowStartDate.setHours(0, 0, 0, 0);
+    lowNights += getNumberOfDaysBetweenDates(lowStartDate, dateRange["end"]);
+  }
+  
+  var nights = lowNights + highNights;
+  if (nights < 29) {
+    document.getElementById("discount").style.display = "none";
+    document.getElementById("discountPrice").style.display = "none";
+  } else {
+    document.getElementById("discount").style.display = "block";
+    document.getElementById("discountPrice").style.display = "inline";
+  }
+  var price = (lowNights * <%= @property.price_cents / 100 %>) + (highNights * <%= @property.high_price_cents / 100 %>);
+  const monthlyDiscount = getMonthlyDiscount(nights, price);
+  document.getElementById("modalrate").innerHTML = (price / nights).toFixed(2);
   document.getElementById("nights").innerHTML = nights;
-  document.getElementById("price").innerHTML = price;
+  document.getElementById("modalnights").innerHTML = nights;
+  document.getElementById("modalstandardprice").innerHTML = price.toLocaleString();
+  document.getElementById("fullprice").innerHTML = price.toLocaleString();
+  document.getElementById("formfullprice").value = price;
+  price = price - monthlyDiscount;
+  document.getElementById("price").innerHTML = price.toLocaleString();
+  document.getElementById("modalprice").innerHTML = price.toLocaleString();
   document.getElementById("formprice").value = price;
+  document.getElementById("formnights").value = nights;
   x.style.display = "block";
   <% if user_signed_in? %>
   if (window.location.pathname != '/properties/reservation') {
@@ -137,6 +216,18 @@ function getNumberOfDaysBetweenDates(date1, date2) {
   const millisecondsInADay = 1000 * 60 * 60 * 24;
 
   return Math.round(timeDifference / millisecondsInADay);
+}
+
+function getMonthlyDiscount(nights, price) {
+  if (nights < 29) {
+    document.getElementById("modalmonthlydiscount").innerHTML = 0;
+    document.getElementById("formmonthlydiscount").value = 0;
+    return 0;
+  }
+  const monthlyDiscount = <%= (@property.monthly_discount / 100) %> * (nights * <%= (@property.price_cents / 100) %>);
+  document.getElementById("modalmonthlydiscount").innerHTML = monthlyDiscount.toLocaleString();
+  document.getElementById("formmonthlydiscount").value = monthlyDiscount.toLocaleString();
+  return monthlyDiscount;
 }
 
 </script>

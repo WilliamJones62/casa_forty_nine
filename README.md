@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Ruby version - 3.0.3
 
-Things you may want to cover:
-
-* Ruby version
+* Rails version - 7.1.5.1
 
 * System dependencies
+The app relies on Stripe to take payments from guests. A map showing the house location is
+provided by Google
 
-* Configuration
-
-* Database creation
+* Database
+The app uses PostgreSQL
 
 * Database initialization
+Admin users need to be created with the 'admin' boolean manually set to true
 
 * How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The test street is run by using the rspec command on the command line
